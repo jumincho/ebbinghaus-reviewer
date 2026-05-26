@@ -1,0 +1,31 @@
+# Visual Studio / .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Build results (제외 — 단, 본 저장소의 dist/ 는 의도적으로 포함)
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+
+# NuGet
+*.nupkg
+**/packages/*
+!**/packages/build/
+
+# ReSharper / Rider
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# OS
+.DS_Store
+Thumbs.db
