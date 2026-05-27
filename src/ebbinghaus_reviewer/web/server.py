@@ -15,7 +15,6 @@ from pathlib import Path
 
 from fastapi import FastAPI, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from ebbinghaus_reviewer.algorithm import ReviewQuality
@@ -24,7 +23,6 @@ from ebbinghaus_reviewer.storage import Storage, default_db_path
 
 _HERE = Path(__file__).parent
 TEMPLATES_DIR = _HERE / "templates"
-STATIC_DIR = _HERE / "static"
 
 
 def create_app(storage: Storage | None = None) -> FastAPI:
@@ -35,9 +33,6 @@ def create_app(storage: Storage | None = None) -> FastAPI:
     app = FastAPI(title="ebbinghaus-reviewer", version="0.1.0")
     app.state.storage = storage
     app.state.scheduler = scheduler
-
-    if STATIC_DIR.exists():
-        app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
     templates = Jinja2Templates(directory=TEMPLATES_DIR)
     templates.env.filters["humanize_due"] = _humanize_due
