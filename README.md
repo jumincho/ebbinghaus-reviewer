@@ -104,7 +104,7 @@ ebbinghaus-reviewer/
     └── presentation.pdf               # 발표 자료
 ```
 
-> `build-artifacts/obj-Release/Review_Reminder.csproj.FileListAbsolute.txt` 는 원 작성자의 로컬 경로(`C:\Users\raich\...`)를 포함하고 있습니다. 보존을 위해 그대로 두었습니다.
+> `build-artifacts/obj-Release/Review_Reminder.csproj.FileListAbsolute.txt` 는 원래 원 작성자의 로컬 절대 경로(`C:\Users\raich\Desktop\reminderrr\...`)를 담은 MSBuild 산출물이었지만, 개인 정보 노출을 피하기 위해 csproj 기준 상대 경로(`bin\Release\...`, `obj\Release\...`)로 정리했습니다.
 
 ## 실행해 보고 싶다면 (현실적 옵션)
 
@@ -212,7 +212,7 @@ ebbinghaus-reviewer/
     └── presentation.pdf               # presentation deck
 ```
 
-> `build-artifacts/obj-Release/Review_Reminder.csproj.FileListAbsolute.txt` contains the original author's local paths (`C:\Users\raich\...`) and is preserved as-is.
+> `build-artifacts/obj-Release/Review_Reminder.csproj.FileListAbsolute.txt` was originally an MSBuild artifact containing the developer's absolute local paths (`C:\Users\raich\Desktop\reminderrr\...`). It has been rewritten to csproj-relative paths (`bin\Release\...`, `obj\Release\...`) to remove that personal-information leak.
 
 ### If you want to try running the binary
 
