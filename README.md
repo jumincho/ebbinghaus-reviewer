@@ -1,4 +1,24 @@
-# Review Reminder (복습 알림)
+<div align="center">
+
+# ebbinghaus-reviewer
+
+**에빙하우스 망각곡선 기반 WPF 복습 알림 앱 — 소스 미보존 아카이브**
+**Ebbinghaus-curve WPF review-reminder app — source-not-preserved archive**
+
+![Platform](https://img.shields.io/badge/platform-Windows%20WPF-0078D4?logo=windows&logoColor=white)
+![Language](https://img.shields.io/badge/language-C%23-239120?logo=csharp&logoColor=white)
+![Framework](https://img.shields.io/badge/.NET-Framework%204.x-512BD4)
+![Status](https://img.shields.io/badge/status-archive--only-lightgrey)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Year](https://img.shields.io/badge/year-2021-blue)
+
+**한국어** · [English](#english)
+
+</div>
+
+---
+
+## 개요
 
 > 에빙하우스 망각 곡선에 기반한 Windows WPF 복습 알림 앱 — **소스 코드가 보존되지 않은 아카이브**
 
@@ -52,8 +72,9 @@
 ## 저장소 구조
 
 ```
-review_reminder/
+ebbinghaus-reviewer/
 ├── README.md
+├── LICENSE
 ├── .gitignore
 ├── dist/                              # 단독 실행 불가 — 의존 DLL 미동봉
 │   ├── Review_Reminder.exe            # PE32 (x86) .NET assembly, 396 KB
@@ -114,3 +135,109 @@ Syncfusion.SfSkinManager.WPF.dll
 > 원본 앱의 동작 화면입니다.
 
 <img width="80%" src="https://user-images.githubusercontent.com/77545063/200372947-d86dc543-3324-48b2-a711-f35bfa5cd5b2.png" alt="Review Reminder 스크린샷"/>
+
+## 라이선스
+
+[MIT License](./LICENSE) — 원본 산출물(발표 자료, 컴파일 바이너리)에 한해 적용됩니다. Syncfusion WPF / Microsoft.WindowsAPICodePack 같은 런타임 의존 라이브러리는 각자의 라이선스가 별도로 적용됩니다.
+
+---
+
+<a name="english"></a>
+
+## English
+
+> Ebbinghaus-curve based WPF review-reminder app for Windows — **source-not-preserved archive**.
+
+> [!WARNING]
+> **This repository can neither build nor run.**
+> - **Not a single** original `.xaml` / `.xaml.cs` / `.csproj` / `.sln` source file is committed.
+> - `dist/Review_Reminder.exe` is missing its seven runtime DLLs (6 Syncfusion + 2 Microsoft.WindowsAPICodePack), so double-clicking it crashes immediately.
+> - Syncfusion WPF is a commercial library and requires its own license.
+>
+> What this repo *does* preserve: the **presentation deck** (`docs/presentation.pdf`) and **traces of the compiled output** (`.baml` / `.g.cs` under `build-artifacts/obj-Release/`).
+> For working source, contact the [original author](https://github.com/jumincho).
+
+### What the original app did
+
+> The description below covers what the original app **provided**. None of that behavior can be verified from the artifacts in this repo.
+
+Hermann Ebbinghaus's **forgetting curve** describes how memory decays over time
+after learning. Reviewing at well-chosen intervals shortly after learning helps
+transfer information into long-term memory.
+
+The original app let you register study items and then surfaced review reminders
+at curve-aligned times as a WPF desktop program.
+
+#### Features (per the original)
+
+- Register study / TODO items
+- Auto-scheduled review reminders along the Ebbinghaus curve
+- Calendar view via Syncfusion SfScheduler
+- Today's review-item notifications (ReviewSystem)
+- Home and Information screens
+
+#### Views (visible in the BAML output)
+
+| View | Notes |
+| --- | --- |
+| HomeView | Dashboard |
+| ToDoListView | Study / review item entry |
+| CalendarView / CalenderView | Schedule calendar (the original ships both spellings) |
+| ReviewSystemView | Review notifications |
+| InformationView | Ebbinghaus-curve explainer |
+| TodolistReminder | Notification window |
+| listboxitemlist | Item-list control |
+
+#### Stack (per the original)
+
+- Language: C#
+- Platform: Windows / WPF (.NET Framework 4.x, x86)
+- Architecture: described as MVVM, though no original ViewModel / Model `.cs` survives to verify
+- UI: Syncfusion WPF + Microsoft.WindowsAPICodePack
+
+### Layout
+
+```
+ebbinghaus-reviewer/
+├── README.md
+├── LICENSE
+├── .gitignore
+├── dist/                              # not standalone — runtime DLLs missing
+│   ├── Review_Reminder.exe            # PE32 (x86) .NET assembly, 396 KB
+│   ├── Review_Reminder.pdb            # debug symbols
+│   └── README.md
+├── build-artifacts/                   # preserved obj/Release intermediates
+│   └── obj-Release/                   # BAML, generated .g.cs, MSBuild cache
+└── docs/
+    └── presentation.pdf               # presentation deck
+```
+
+> `build-artifacts/obj-Release/Review_Reminder.csproj.FileListAbsolute.txt` contains the original author's local paths (`C:\Users\raich\...`) and is preserved as-is.
+
+### If you want to try running the binary
+
+To actually launch `dist/Review_Reminder.exe`, these seven DLLs need to sit next to it (all available via NuGet or the Syncfusion installer; Syncfusion also needs a license key):
+
+```
+Microsoft.WindowsAPICodePack.Shell.dll
+Microsoft.WindowsAPICodePack.ShellExtensions.dll
+Syncfusion.Licensing.dll
+Syncfusion.SfScheduler.WPF.dll
+Syncfusion.Shared.Wpf.dll
+Syncfusion.SfBusyIndicator.WPF.dll
+Syncfusion.SfInput.Wpf.dll
+Syncfusion.SfSkinManager.WPF.dll
+```
+
+Exact versions live in `build-artifacts/obj-Release/Review_Reminder.csproj.FileListAbsolute.txt`. Once all DLLs are present at matching versions in the same folder, the app runs on a 32-bit-compatible Windows host with .NET Framework 4.x.
+
+Recompiling from source is **not possible from this repo alone** — `.csproj`, `.sln`, `.xaml`, `.xaml.cs`, and `packages.config` are all missing.
+
+### Materials
+
+- Demo video: <https://www.youtube.com/watch?v=J2nf1r5jZrI>
+- Slides: [`docs/presentation.pdf`](docs/presentation.pdf)
+
+### License
+
+[MIT License](./LICENSE) — covers only the original artifacts (presentation deck, compiled binary). Runtime dependencies (Syncfusion WPF, Microsoft.WindowsAPICodePack) remain under their respective licenses.
