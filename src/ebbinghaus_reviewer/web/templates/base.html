@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}ebbinghaus-reviewer{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+  <header class="bg-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="/" class="text-xl font-semibold tracking-tight">
+        <span class="text-indigo-600">ebbinghaus</span><span class="text-slate-400">/</span>reviewer
+      </a>
+      <nav class="flex items-center gap-6 text-sm">
+        <a href="/" class="hover:text-indigo-600">Today</a>
+        <a href="/cards" class="hover:text-indigo-600">Cards</a>
+        <a href="/cards/new" class="hover:text-indigo-600">Add</a>
+        <a href="/stats" class="hover:text-indigo-600">Stats</a>
+      </nav>
+    </div>
+  </header>
+  <main class="max-w-4xl mx-auto px-6 py-8">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="max-w-4xl mx-auto px-6 py-8 text-xs text-slate-400">
+    <p>Spaced repetition · SM-2 algorithm · Ebbinghaus forgetting curve</p>
+  </footer>
+</body>
+</html>

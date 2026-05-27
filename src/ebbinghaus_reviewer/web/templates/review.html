@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Review · ebbinghaus-reviewer{% endblock %}
+{% block content %}
+<div class="text-sm text-slate-500 mb-4">
+  <a href="/" class="hover:underline">← back to today</a>
+</div>
+
+<div class="bg-white rounded-lg border border-slate-200 overflow-hidden">
+  <div class="p-8">
+    <div class="text-xs text-slate-400 mb-2">Card #{{ card.id }} · rep {{ card.repetition }} · EF {{ "%.2f"|format(card.ease_factor) }}</div>
+    <div class="text-2xl font-semibold text-slate-900 mb-2">{{ card.front }}</div>
+    {% if card.tags %}
+      <div class="text-xs mb-6">
+        {% for t in card.tags %}<span class="inline-block bg-slate-100 rounded px-2 py-0.5 mr-1">{{ t }}</span>{% endfor %}
+      </div>
+    {% endif %}
+
+    <details class="mt-6 group">
+      <summary class="cursor-pointer select-none text-sm text-indigo-600 hover:underline list-none">
+        <span class="group-open:hidden">▸ Reveal answer</span>
+        <span class="hidden group-open:inline">▾ Hide answer</span>
+      </summary>
+      <div class="mt-4 p-4 bg-slate-50 rounded text-slate-700 whitespace-pre-wrap">
+        {% if card.back %}{{ card.back }}{% else %}<em class="text-slate-400">(no back content)</em>{% endif %}
+      </div>
+    </details>
+  </div>
+
+  <form action="/cards/{{ card.id }}/review" method="post" class="border-t border-slate-200 bg-slate-50 p-6">
+    <p class="text-sm font-medium text-slate-700 mb-3">How well did you recall?</p>
+    <div class="grid grid-cols-6 gap-2">
+      {% for q, label, color in [
+        (0, 'Blackout', 'bg-red-700 hover:bg-red-800'),
+        (1, 'Wrong/Hard', 'bg-red-600 hover:bg-red-700'),
+        (2, 'Wrong/Easy', 'bg-orange-500 hover:bg-orange-600'),
+        (3, 'OK/Hard', 'bg-yellow-500 hover:bg-yellow-600'),
+        (4, 'OK/Hesitant', 'bg-green-500 hover:bg-green-600'),
+        (5, 'Perfect', 'bg-green-700 hover:bg-green-800'),
+      ] %}
+        <button
+          type="submit" name="quality" value="{{ q }}"
+          class="{{ color }} text-white rounded px-2 py-3 text-xs font-medium transition"
+        >
+          <div class="text-lg font-bold">{{ q }}</div>
+          <div>{{ label }}</div>
+        </button>
+      {% endfor %}
+    </div>
+  </form>
+</div>
+{% endblock %}

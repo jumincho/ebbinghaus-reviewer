@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Saved · ebbinghaus-reviewer{% endblock %}
+{% block content %}
+<div class="bg-white rounded-lg border border-slate-200 p-8 text-center">
+  <div class="text-5xl mb-3 text-green-600">✓</div>
+  <h1 class="text-2xl font-bold mb-2">Review saved</h1>
+  <p class="text-slate-600">
+    Card <span class="font-medium">#{{ card.id }}</span> will return for review on
+    <span class="font-medium">{{ card.next_review_at | fmt_dt }}</span>
+    <span class="text-slate-400">(in {{ card.interval_days }} day{{ '' if card.interval_days == 1 else 's' }}, EF {{ "%.2f"|format(card.ease_factor) }})</span>.
+  </p>
+  <div class="mt-6 flex items-center justify-center gap-3">
+    <a href="/" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium">Back to today</a>
+    <a href="/cards" class="px-4 py-2 text-sm text-slate-600 hover:text-slate-900">All cards</a>
+  </div>
+</div>
+{% endblock %}

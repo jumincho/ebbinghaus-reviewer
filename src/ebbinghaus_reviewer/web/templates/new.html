@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Add card · ebbinghaus-reviewer{% endblock %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Add a card</h1>
+
+<form action="/cards" method="post" class="bg-white rounded-lg border border-slate-200 p-6 space-y-5">
+  <div>
+    <label for="front" class="block text-sm font-medium text-slate-700 mb-1">Front (prompt)</label>
+    <input
+      id="front" name="front" required autofocus
+      class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+      placeholder="e.g. What does the Ebbinghaus forgetting curve describe?"
+    />
+  </div>
+
+  <div>
+    <label for="back" class="block text-sm font-medium text-slate-700 mb-1">Back (answer, optional)</label>
+    <textarea
+      id="back" name="back" rows="4"
+      class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+      placeholder="The exponential decay of memory retention over time when material is not revisited."
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="tags" class="block text-sm font-medium text-slate-700 mb-1">Tags (comma-separated, optional)</label>
+    <input
+      id="tags" name="tags"
+      class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+      placeholder="psych, memory"
+    />
+  </div>
+
+  <div class="flex items-center justify-end gap-3 pt-2">
+    <a href="/" class="px-4 py-2 text-sm text-slate-600 hover:text-slate-900">Cancel</a>
+    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium">Add card</button>
+  </div>
+</form>
+{% endblock %}

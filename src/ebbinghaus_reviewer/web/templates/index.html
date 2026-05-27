@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Today · ebbinghaus-reviewer{% endblock %}
+{% block content %}
+<div class="flex items-baseline justify-between mb-6">
+  <h1 class="text-3xl font-bold">Today</h1>
+  <div class="text-sm text-slate-500">
+    {{ total }} card{{ '' if total == 1 else 's' }} · {{ reviews }} review{{ '' if reviews == 1 else 's' }} logged
+  </div>
+</div>
+
+{% if due %}
+  <p class="text-slate-600 mb-4">{{ due|length }} card{{ '' if due|length == 1 else 's' }} due for review.</p>
+  <ul class="space-y-3">
+    {% for card in due %}
+    <li class="bg-white rounded-lg border border-slate-200 p-4 flex items-center justify-between">
+      <div class="min-w-0 flex-1">
+        <div class="font-medium truncate">{{ card.front }}</div>
+        <div class="text-xs text-slate-500 mt-1">
+          {% if card.tags %}
+            {% for t in card.tags %}<span class="inline-block bg-slate-100 rounded px-2 py-0.5 mr-1">{{ t }}</span>{% endfor %}
+          {% endif %}
+          <span>was due {{ card.next_review_at | humanize_due(now) }}</span>
+        </div>
+      </div>
+      <a href="/cards/{{ card.id }}/review" class="ml-4 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium">Review</a>
+    </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div class="bg-white rounded-lg border border-slate-200 p-12 text-center">
+    <div class="text-5xl mb-3">✓</div>
+    <p class="text-lg font-medium text-slate-700">You're caught up.</p>
+    <p class="text-sm text-slate-500 mt-2">No cards are due right now.</p>
+    <a href="/cards/new" class="inline-block mt-6 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium">Add a card</a>
+  </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Stats · ebbinghaus-reviewer{% endblock %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Stats</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+  <div class="bg-white rounded-lg border border-slate-200 p-6">
+    <div class="text-3xl font-bold text-indigo-600">{{ total }}</div>
+    <div class="text-sm text-slate-500 mt-1">Total cards</div>
+  </div>
+  <div class="bg-white rounded-lg border border-slate-200 p-6">
+    <div class="text-3xl font-bold text-indigo-600">{{ reviews }}</div>
+    <div class="text-sm text-slate-500 mt-1">Total reviews</div>
+  </div>
+  <div class="bg-white rounded-lg border border-slate-200 p-6">
+    <div class="text-3xl font-bold text-indigo-600">{{ due }}</div>
+    <div class="text-sm text-slate-500 mt-1">Due now</div>
+  </div>
+</div>
+
+<div class="bg-white rounded-lg border border-slate-200 p-6">
+  <div class="text-xs uppercase text-slate-400 mb-1">Database</div>
+  <code class="text-sm text-slate-700">{{ db_path }}</code>
+</div>
+{% endblock %}
