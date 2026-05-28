@@ -25,7 +25,7 @@ namespace Review_Reminder.Services
 
         public event EventHandler<ReviewItem> ItemScheduled;
         public event EventHandler<ReviewItem> ItemCancelled;
-        public event EventHandler<(ReviewItem Item, int Slot)> ReminderFired;
+        public event EventHandler<ReminderFiredEventArgs> ReminderFired;
 
         public ReviewScheduler(INotificationService notifications)
         {
@@ -75,7 +75,7 @@ namespace Review_Reminder.Services
 
         private void Fire(ReviewItem item, int slot)
         {
-            ReminderFired?.Invoke(this, (item, slot));
+            ReminderFired?.Invoke(this, new ReminderFiredEventArgs(item, slot));
             _notifications.Show(item, slot);
         }
 
