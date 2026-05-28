@@ -100,9 +100,22 @@ ebbinghaus-reviewer/
 │   │   ├── *.cache / *.lref            # MSBuild 캐시
 │   │   └── Review_Reminder.csproj.FileListAbsolute.txt
 │   └── README.md
+├── source-reconstruction/              # ⚠ 가상 재구성 (원본 아님)
+│   ├── README.md                       # 한계와 추론 근거 명시
+│   ├── Review_Reminder.{sln,csproj}
+│   ├── App.{xaml,xaml.cs}
+│   ├── MainWindow.{xaml,xaml.cs}
+│   ├── MVVM/{Model,ViewModel,View}/
+│   ├── Services/
+│   └── Theme/MenuButtonTheme.xaml
 └── docs/
     └── presentation.pdf               # 발표 자료
 ```
+
+> **`source-reconstruction/` 에 대하여**: 원본 소스가 보존되지 않았기 때문에,
+> `build-artifacts/obj-Release/` 의 BAML·`.g.cs` 만 보고 "만약 소스가 있었다면 이런 모습이었을 것이다"
+> 라는 **가상의 재구성**을 별도 디렉터리로 두었습니다. 원본 구현이 아니며,
+> 자세한 한계와 추론 근거는 [`source-reconstruction/README.md`](./source-reconstruction/README.md) 를 참고하세요.
 
 > `build-artifacts/obj-Release/Review_Reminder.csproj.FileListAbsolute.txt` 는 원래 원 작성자의 로컬 절대 경로(`C:\Users\raich\Desktop\reminderrr\...`)를 담은 MSBuild 산출물이었지만, 개인 정보 노출을 피하기 위해 csproj 기준 상대 경로(`bin\Release\...`, `obj\Release\...`)로 정리했습니다.
 
@@ -208,9 +221,25 @@ ebbinghaus-reviewer/
 │   └── README.md
 ├── build-artifacts/                   # preserved obj/Release intermediates
 │   └── obj-Release/                   # BAML, generated .g.cs, MSBuild cache
+├── source-reconstruction/             # ⚠ HYPOTHETICAL reconstruction (not the original)
+│   ├── README.md                      # caveats + inference rationale
+│   ├── Review_Reminder.{sln,csproj}
+│   ├── App.{xaml,xaml.cs}
+│   ├── MainWindow.{xaml,xaml.cs}
+│   ├── MVVM/{Model,ViewModel,View}/
+│   ├── Services/
+│   └── Theme/MenuButtonTheme.xaml
 └── docs/
     └── presentation.pdf               # presentation deck
 ```
+
+> **About `source-reconstruction/`**: because the original source is not
+> preserved, this directory contains a *hypothetical* sketch of what the
+> source would have plausibly looked like — inferred purely from the
+> BAML / `.g.cs` files under `build-artifacts/obj-Release/`. It is **not**
+> the original implementation. See
+> [`source-reconstruction/README.md`](./source-reconstruction/README.md)
+> for the full caveat list and the inference rationale.
 
 > `build-artifacts/obj-Release/Review_Reminder.csproj.FileListAbsolute.txt` was originally an MSBuild artifact containing the developer's absolute local paths (`C:\Users\raich\Desktop\reminderrr\...`). It has been rewritten to csproj-relative paths (`bin\Release\...`, `obj\Release\...`) to remove that personal-information leak.
 
