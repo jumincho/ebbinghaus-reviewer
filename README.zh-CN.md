@@ -93,9 +93,24 @@ ebbinghaus-reviewer/
 │   │   ├── *.cache / *.lref           # MSBuild 缓存
 │   │   └── Review_Reminder.csproj.FileListAbsolute.txt
 │   └── README.md
+├── source-reconstruction/             # ⚠ 假设性源码重构 (并非原始源码)
+│   ├── README.md                      # 限制说明与推断依据
+│   ├── Review_Reminder.{sln,csproj}
+│   ├── App.{xaml,xaml.cs}
+│   ├── MainWindow.{xaml,xaml.cs}
+│   ├── MVVM/{Model,ViewModel,View}/
+│   ├── Services/
+│   └── Theme/MenuButtonTheme.xaml
 └── docs/
     └── presentation.pdf               # 演讲资料
 ```
+
+> **关于 `source-reconstruction/`**: 因为原始源码没有保留,
+> 这个目录提供了一份 **假设性重构** —— 仅根据
+> `build-artifacts/obj-Release/` 下的 BAML / `.g.cs` 推断
+> "如果当时源码留下来,大概会长这个样子"。它 **不是** 原始实现。
+> 详细的限制说明和推断依据请见
+> [`source-reconstruction/README.md`](./source-reconstruction/README.md)。
 
 > `build-artifacts/obj-Release/Review_Reminder.csproj.FileListAbsolute.txt`
 > 原本包含原作者的本地绝对路径 (`C:\Users\raich\Desktop\reminderrr\...`),
