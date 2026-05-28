@@ -6,7 +6,6 @@
 // Syncfusion SfScheduler (`Schedule` field, also from CalendarView.g.cs).
 
 using System.Collections.ObjectModel;
-using System.Linq;
 using Review_Reminder.MVVM.Model;
 using Review_Reminder.Services;
 
@@ -47,8 +46,9 @@ namespace Review_Reminder.MVVM.ViewModel
             foreach (var item in _scheduler.Items)
             {
                 if (item.ReviewTimes == null) continue;
-                foreach (var (when, slot) in item.ReviewTimes.Select((t, i) => (t, i)))
+                for (var slot = 0; slot < item.ReviewTimes.Count; slot++)
                 {
+                    var when = item.ReviewTimes[slot];
                     Appointments.Add(new CalendarAppointment
                     {
                         Subject = item.Title,
