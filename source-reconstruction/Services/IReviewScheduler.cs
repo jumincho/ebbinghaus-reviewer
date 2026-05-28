@@ -10,6 +10,19 @@ using Review_Reminder.MVVM.Model;
 
 namespace Review_Reminder.Services
 {
+    /// <summary>EventArgs payload for ReminderFired.</summary>
+    public class ReminderFiredEventArgs : EventArgs
+    {
+        public ReviewItem Item { get; }
+        public int Slot { get; }
+
+        public ReminderFiredEventArgs(ReviewItem item, int slot)
+        {
+            Item = item;
+            Slot = slot;
+        }
+    }
+
     public interface IReviewScheduler : IDisposable
     {
         /// <summary>All items currently tracked by the scheduler.</summary>
@@ -25,7 +38,7 @@ namespace Review_Reminder.Services
         /// Raised when a reminder for an item actually fires (the
         /// NotificationService is what then opens TodolistReminder).
         /// </summary>
-        event EventHandler<(ReviewItem Item, int Slot)> ReminderFired;
+        event EventHandler<ReminderFiredEventArgs> ReminderFired;
 
         /// <summary>
         /// Compute review timestamps from item.StudiedAt via EbbinghausCurve,
