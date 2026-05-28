@@ -2,7 +2,7 @@
 
 # ebbinghaus-reviewer
 
-**基于艳宾浩斯遗忘曲线的 WPF 复习提醒桌面应用**
+**基于艾宾浩斯遗忘曲线的 WPF 复习提醒桌面应用**
 
 ![Platform](https://img.shields.io/badge/platform-Windows%20WPF-0078D4?logo=windows&logoColor=white)
 ![Language](https://img.shields.io/badge/language-C%23-239120?logo=csharp&logoColor=white)
@@ -18,14 +18,14 @@
 
 ## 概览
 
-基于艳宾浩斯遗忘曲线的 Windows WPF 复习提醒应用。德国心理学家赫尔曼·艳宾浩斯 (Hermann Ebbinghaus) 提出过 **遗忘曲线**，描述了学习后记忆随时间衰减的规律。按照该曲线，在学习刚结束后以特定间隔复习，有助于将信息转入长期记忆。
+基于艾宾浩斯遗忘曲线的 Windows WPF 复习提醒应用。德国心理学家赫尔曼·艾宾浩斯 (Hermann Ebbinghaus) 提出过 **遗忘曲线**，描述了学习后记忆随时间衰减的规律。按照该曲线，在学习刚结束后以特定间隔复习，有助于将信息转入长期记忆。
 
 本应用是一款 WPF 桌面程序：用户登记学习内容后，会在与遗忘曲线匹配的时点弹出复习提醒。
 
 ## 功能
 
 - 待办 / 学习项录入 (TODO)
-- 按艳宾浩斯曲线自动安排复习日程
+- 按艾宾浩斯曲线自动安排复习日程
 - 基于 Syncfusion SfScheduler 的日历视图
 - 当日复习项目提醒 (ReviewSystem)
 - 主页 · 信息页
@@ -38,7 +38,7 @@
 | ToDoListView | 学习/复习项目录入 |
 | CalendarView | 日历 |
 | ReviewSystemView | 复习提醒 |
-| InformationView | 艳宾浩斯曲线说明 |
+| InformationView | 艾宾浩斯曲线说明 |
 | TodolistReminder | 提醒窗口 (Window) |
 
 ## 技术栈
