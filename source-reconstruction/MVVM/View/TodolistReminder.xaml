@@ -1,0 +1,100 @@
+<!--
+  HYPOTHETICAL RECONSTRUCTION — not the original TodolistReminder.xaml.
+  TodolistReminder.g.cs gives a precise field map at the indicated lines:
+    line 25: <Separator x:Name="seper" />
+    line 26-29: <Image x:Name="firstl" /> ... "sndl" "thdl" "forthl"
+    line 34, 38, 42, 46: <TextBlock x:Name="first|snd|thd|forth" />
+    line 51: <TextBlock x:Name="subjectlabel" />
+    line 53: <TextBlock x:Name="todoname" />
+  So the popup is a four-row "slot" indicator + a header + the item title.
+  The original is a UserControl (the g.cs base class confirms it); the
+  notification service wraps it in a top-level Window at runtime.
+-->
+<UserControl x:Class="Review_Reminder.MVVM.View.TodolistReminder"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#272537">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Time to review"
+                   Foreground="White"
+                   FontSize="16"
+                   FontWeight="Bold" />
+
+        <Separator x:Name="seper" Grid.Row="1" Margin="0,8" />
+
+        <!-- The four Ebbinghaus slots (10m / 1d / 1w / 1m). The slot that
+             matches the firing reminder is highlighted via Foreground;
+             the others are dim. TodolistReminder.Bind() drives this. -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image x:Name="firstl" Grid.Column="0" Width="20" Height="20" />
+            <TextBlock x:Name="first"
+                       Grid.Column="1"
+                       Text="10 min"
+                       Foreground="#888"
+                       VerticalAlignment="Center" />
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image x:Name="sndl" Grid.Column="0" Width="20" Height="20" />
+            <TextBlock x:Name="snd"
+                       Grid.Column="1"
+                       Text="1 day"
+                       Foreground="#888"
+                       VerticalAlignment="Center" />
+        </Grid>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image x:Name="thdl" Grid.Column="0" Width="20" Height="20" />
+            <TextBlock x:Name="thd"
+                       Grid.Column="1"
+                       Text="1 week"
+                       Foreground="#888"
+                       VerticalAlignment="Center" />
+        </Grid>
+
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image x:Name="forthl" Grid.Column="0" Width="20" Height="20" />
+            <TextBlock x:Name="forth"
+                       Grid.Column="1"
+                       Text="1 month"
+                       Foreground="#888"
+                       VerticalAlignment="Center" />
+        </Grid>
+
+        <!-- Subject label + the actual item title (lines 51 + 53 of the original) -->
+        <StackPanel Orientation="Horizontal" Grid.Row="5" Margin="0,16,0,0">
+            <TextBlock x:Name="subjectlabel"
+                       Text="Item: "
+                       Foreground="#888" />
+            <TextBlock x:Name="todoname"
+                       Foreground="White"
+                       FontWeight="Bold" />
+        </StackPanel>
+    </Grid>
+</UserControl>
