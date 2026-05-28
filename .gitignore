@@ -7,7 +7,7 @@ obj/
 *.sln.docstates
 .vs/
 
-# Build results (제외 — 단, 본 저장소의 dist/ 는 의도적으로 포함)
+# Build results
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]eleases/
@@ -18,7 +18,7 @@ bld/
 
 # NuGet
 *.nupkg
-**/packages/*
+packages/
 !**/packages/build/
 
 # ReSharper / Rider
