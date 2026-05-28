@@ -1,0 +1,84 @@
+<Window x:Class="Review_Reminder.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Review_Reminder.MVVM.ViewModel"
+        xmlns:view="clr-namespace:Review_Reminder.MVVM.View"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Title="Review Reminder"
+        Height="650"
+        Width="1100">
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <!-- Map ViewModel types -> View instances so a single ContentControl can host them. -->
+        <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+            <view:HomeView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ToDoListViewModel}">
+            <view:ToDoListView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:CalendarViewModel}">
+            <view:CalendarView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ReviewSystemViewModel}">
+            <view:ReviewSystemView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:InformationViewModel}">
+            <view:InformationView />
+        </DataTemplate>
+    </Window.Resources>
+
+    <Border CornerRadius="12" Background="#272537">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Side nav -->
+            <StackPanel Grid.Column="0" Margin="8">
+                <TextBlock Text="Review Reminder"
+                           Foreground="White"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Margin="8,16,8,24" />
+                <Button Content="Home"
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding ShowHomeCommand}" />
+                <Button Content="To Do"
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding ShowToDoListCommand}" />
+                <Button Content="Calendar"
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding ShowCalendarCommand}" />
+                <Button Content="Today's Reviews"
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding ShowReviewSystemCommand}" />
+                <Button Content="About"
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding ShowInformationCommand}" />
+            </StackPanel>
+
+            <!-- Content + window chrome -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- Custom title bar -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="-" Width="30" Click="Mimimize_Click" />
+                    <Button Content="x" Width="30" Click="Close_Click" />
+                </StackPanel>
+
+                <!-- View host -->
+                <ContentControl Grid.Row="1" Content="{Binding CurrentView}" />
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
