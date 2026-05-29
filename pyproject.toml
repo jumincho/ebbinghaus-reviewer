@@ -49,8 +49,8 @@ dev = [
 ebbinghaus = "ebbinghaus_reviewer.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/properly59/ebbinghaus-reviewer"
-Repository = "https://github.com/properly59/ebbinghaus-reviewer"
+Homepage = "https://github.com/jumincho/ebbinghaus-reviewer"
+Repository = "https://github.com/jumincho/ebbinghaus-reviewer"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/ebbinghaus_reviewer"]
