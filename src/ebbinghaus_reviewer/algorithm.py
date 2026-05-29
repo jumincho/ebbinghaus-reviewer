@@ -1,4 +1,4 @@
-"""Pure SM-2 spaced-repetition algorithm (Wozniak, 1985).
+"""Pure SM-2 spaced-repetition algorithm (Wozniak, 1990).
 
 This module is the heart of the spaced-repetition / Ebbinghaus logic. It is
 deliberately free of any I/O, persistence, or clock access: every function is

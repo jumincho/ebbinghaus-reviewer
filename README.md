@@ -6,6 +6,7 @@
 **Spaced-repetition study tool along the Ebbinghaus forgetting curve (SM-2), with a CLI and web UI**
 
 ![Python](https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white)
+[![CI](https://github.com/jumincho/ebbinghaus-reviewer/actions/workflows/ci.yml/badge.svg)](https://github.com/jumincho/ebbinghaus-reviewer/actions/workflows/ci.yml)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Tests](https://img.shields.io/badge/tests-72%20passing-brightgreen)
 ![Algorithm](https://img.shields.io/badge/algorithm-SM--2-512BD4)
