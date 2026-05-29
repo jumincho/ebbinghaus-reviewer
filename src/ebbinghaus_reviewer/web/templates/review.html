@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Review · Ebbinghaus Reviewer{% endblock %}
+{% block content %}
+  {% if item %}
+    <p><strong>{{ remaining }}</strong> item(s) due.</p>
+    <div class="card">
+      <div class="front">{{ item.front }}</div>
+      <details>
+        <summary>Show answer</summary>
+        <div class="back">{{ item.back or "(no answer recorded)" }}</div>
+      </details>
+      <form method="post" action="/review/{{ item.id }}">
+        <p style="margin-top:1rem;">How well did you recall it?</p>
+        <div class="grades">
+          {% for q in range(min_quality, max_quality + 1) %}
+            <button type="submit" name="quality" value="{{ q }}">{{ q }}</button>
+          {% endfor %}
+        </div>
+        <p style="font-size:.8rem;opacity:.7;">0 = blackout · 3 = correct but hard · 5 = perfect</p>
+      </form>
+    </div>
+  {% else %}
+    <p>🎉 Nothing to review. You're all caught up! <a href="/">Back to dashboard →</a></p>
+  {% endif %}
+{% endblock %}

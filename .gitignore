@@ -1,31 +1,72 @@
-# Visual Studio / .NET
-bin/
-obj/
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+sdist/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# Test / coverage / type-checker caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Application data (local SQLite databases)
+*.db
+*.sqlite3
+reviews.db
+
+# Editors / IDEs
+.idea/
+.vscode/
+*.swp
+
+# ---- .NET (kept for the archived WPF source under archive/) ----
+[Bb]in/
+[Oo]bj/
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
 .vs/
-
-# Build results
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]eleases/
 x64/
 x86/
-build/
-bld/
-
-# NuGet
+[Bb]ld/
 *.nupkg
 packages/
 !**/packages/build/
-
-# ReSharper / Rider
 _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
 
-# OS
+# ---- OS ----
 .DS_Store
 Thumbs.db

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Cards · Ebbinghaus Reviewer{% endblock %}
+{% block content %}
+  <h2>Add a card</h2>
+  <form method="post" action="/cards">
+    <label>Front (prompt)
+      <input type="text" name="front" required placeholder="What does 'spaced repetition' mean?">
+    </label>
+    <label>Back (answer, optional)
+      <textarea name="back" rows="2" placeholder="Reviewing at increasing intervals to fight forgetting."></textarea>
+    </label>
+    <button type="submit">Add card</button>
+  </form>
+
+  <h2>All cards ({{ items|length }})</h2>
+  {% if items %}
+    <table>
+      <thead>
+        <tr><th>ID</th><th>Front</th><th>Back</th><th>Due</th><th>Reps</th><th>EF</th><th>Int.</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.front }}</td>
+          <td>{{ item.back }}</td>
+          <td>{{ item.due_date.isoformat() }}</td>
+          <td>{{ item.repetitions }}</td>
+          <td>{{ "%.2f"|format(item.ease_factor) }}</td>
+          <td>{{ item.interval }}d</td>
+          <td>
+            <form class="inline" method="post" action="/cards/{{ item.id }}/delete">
+              <button class="ghost" type="submit">delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No cards yet — add your first one above.</p>
+  {% endif %}
+{% endblock %}
