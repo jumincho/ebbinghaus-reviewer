@@ -75,6 +75,34 @@ ebbinghaus stats
 각 명령은 `--help` 로 상세 도움말을 볼 수 있습니다. 데이터베이스 경로는 `--db` 옵션이나
 `EBBINGHAUS_DB` 환경 변수로 바꿀 수 있습니다(기본값: `~/.local/share/ebbinghaus-reviewer/reviews.db`).
 
+## 데모
+
+```text
+$ ebbinghaus add "SM-2 ease-factor floor?" --back "1.3"
+Added item #1: SM-2 ease-factor floor? (due 2026-05-29)
+
+$ ebbinghaus today
+                             Due today (2)
+┏━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━┳━━━━━━┳━━━━━━━━━━┓
+┃ ID ┃ Front              ┃ Back   ┃    Due     ┃ Reps ┃   EF ┃ Interval ┃
+┡━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━╇━━━━━━╇━━━━━━━━━━┩
+│  1 │ SM-2 ease-factor   │ 1.3    │ 2026-05-29 │    0 │ 2.50 │       0d │
+│    │ floor?             │        │            │      │      │          │
+│  2 │ Interval after 2nd │ 6 days │ 2026-05-29 │    0 │ 2.50 │       0d │
+│    │ success?           │        │            │      │      │          │
+└────┴────────────────────┴────────┴────────────┴──────┴──────┴──────────┘
+
+$ ebbinghaus stats
+           Statistics
+┌─────────────────────────┬──────┐
+│ Total items             │    2 │
+│ Due today               │    2 │
+│ Learning (<2 reps)      │    2 │
+│ Mature (>=21d interval) │    0 │
+│ Average ease factor     │ 2.50 │
+└─────────────────────────┴──────┘
+```
+
 ## 웹 UI (선택)
 
 CLI와 **같은 SQLite 파일**을 공유하는 가벼운 FastAPI + Jinja2 서버가 포함되어 있습니다.
@@ -125,7 +153,7 @@ mypy src        # 타입 체크
 환경에서는 빌드/실행할 수 없습니다. 실행 불가능했던 바이너리 산출물은 삭제하고 소스만 정직하게
 남겼습니다. 자세한 내용은 [`archive/README.md`](./archive/README.md) 를 참고하세요.
 
-- 발표 영상: <https://www.youtube.com/watch?v=J2nf1r5jZrI>
+- 발표 영상 (원본 WPF 앱): <https://www.youtube.com/watch?v=J2nf1r5jZrI>
 - 발표 슬라이드: [`archive/docs/presentation.pdf`](./archive/docs/presentation.pdf)
 
 ## 라이선스
@@ -202,6 +230,34 @@ Every command has detailed `--help`. The database path can be set with `--db`
 or the `EBBINGHAUS_DB` environment variable (default:
 `~/.local/share/ebbinghaus-reviewer/reviews.db`).
 
+### Demo
+
+```text
+$ ebbinghaus add "SM-2 ease-factor floor?" --back "1.3"
+Added item #1: SM-2 ease-factor floor? (due 2026-05-29)
+
+$ ebbinghaus today
+                             Due today (2)
+┏━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━┳━━━━━━┳━━━━━━━━━━┓
+┃ ID ┃ Front              ┃ Back   ┃    Due     ┃ Reps ┃   EF ┃ Interval ┃
+┡━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━╇━━━━━━╇━━━━━━━━━━┩
+│  1 │ SM-2 ease-factor   │ 1.3    │ 2026-05-29 │    0 │ 2.50 │       0d │
+│    │ floor?             │        │            │      │      │          │
+│  2 │ Interval after 2nd │ 6 days │ 2026-05-29 │    0 │ 2.50 │       0d │
+│    │ success?           │        │            │      │      │          │
+└────┴────────────────────┴────────┴────────────┴──────┴──────┴──────────┘
+
+$ ebbinghaus stats
+           Statistics
+┌─────────────────────────┬──────┐
+│ Total items             │    2 │
+│ Due today               │    2 │
+│ Learning (<2 reps)      │    2 │
+│ Mature (>=21d interval) │    0 │
+│ Average ease factor     │ 2.50 │
+└─────────────────────────┴──────┘
+```
+
 ### Web UI (optional)
 
 A lightweight FastAPI + Jinja2 server shares the **same SQLite file** as the CLI.
@@ -251,7 +307,7 @@ commercial Syncfusion WPF license, so it cannot be built or run in this
 environment; the non-runnable binary outputs were deleted and only the source
 was kept, honestly. See [`archive/README.md`](./archive/README.md) for details.
 
-- Demo video: <https://www.youtube.com/watch?v=J2nf1r5jZrI>
+- Demo video (original WPF app): <https://www.youtube.com/watch?v=J2nf1r5jZrI>
 - Slides: [`archive/docs/presentation.pdf`](./archive/docs/presentation.pdf)
 
 ### License

@@ -73,6 +73,34 @@ ebbinghaus stats
 每个命令都可用 `--help` 查看详细帮助。数据库路径可通过 `--db` 选项或 `EBBINGHAUS_DB` 环境变量
 设置（默认：`~/.local/share/ebbinghaus-reviewer/reviews.db`）。
 
+## 演示
+
+```text
+$ ebbinghaus add "SM-2 ease-factor floor?" --back "1.3"
+Added item #1: SM-2 ease-factor floor? (due 2026-05-29)
+
+$ ebbinghaus today
+                             Due today (2)
+┏━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━┳━━━━━━┳━━━━━━━━━━┓
+┃ ID ┃ Front              ┃ Back   ┃    Due     ┃ Reps ┃   EF ┃ Interval ┃
+┡━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━╇━━━━━━╇━━━━━━━━━━┩
+│  1 │ SM-2 ease-factor   │ 1.3    │ 2026-05-29 │    0 │ 2.50 │       0d │
+│    │ floor?             │        │            │      │      │          │
+│  2 │ Interval after 2nd │ 6 days │ 2026-05-29 │    0 │ 2.50 │       0d │
+│    │ success?           │        │            │      │      │          │
+└────┴────────────────────┴────────┴────────────┴──────┴──────┴──────────┘
+
+$ ebbinghaus stats
+           Statistics
+┌─────────────────────────┬──────┐
+│ Total items             │    2 │
+│ Due today               │    2 │
+│ Learning (<2 reps)      │    2 │
+│ Mature (>=21d interval) │    0 │
+│ Average ease factor     │ 2.50 │
+└─────────────────────────┴──────┘
+```
+
 ## 网页界面（可选）
 
 内置一个轻量的 FastAPI + Jinja2 服务，与命令行**共享同一个 SQLite 文件**。
@@ -122,7 +150,7 @@ mypy src        # 类型检查
 Windows，并依赖商业的 Syncfusion WPF 许可证，因此无法在当前环境中构建或运行；无法运行的二进制
 产物已被删除，仅诚实地保留了源码。详情见 [`archive/README.md`](./archive/README.md)。
 
-- 演示视频：<https://www.youtube.com/watch?v=J2nf1r5jZrI>
+- 演示视频（原始 WPF 应用）：<https://www.youtube.com/watch?v=J2nf1r5jZrI>
 - 演示幻灯片：[`archive/docs/presentation.pdf`](./archive/docs/presentation.pdf)
 
 ## 许可证
