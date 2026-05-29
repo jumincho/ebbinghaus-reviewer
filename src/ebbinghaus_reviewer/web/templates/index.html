@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Today · Ebbinghaus Reviewer{% endblock %}
+{% block content %}
+  <div class="stat-grid">
+    <div class="stat"><div class="n">{{ stats.total }}</div><div class="l">total</div></div>
+    <div class="stat"><div class="n">{{ stats.due_today }}</div><div class="l">due today</div></div>
+    <div class="stat"><div class="n">{{ stats.learning }}</div><div class="l">learning</div></div>
+    <div class="stat"><div class="n">{{ stats.mature }}</div><div class="l">mature</div></div>
+    <div class="stat"><div class="n">{{ "%.2f"|format(stats.average_ease) }}</div><div class="l">avg ease</div></div>
+  </div>
+
+  {% if due %}
+    <p>You have <strong>{{ due|length }}</strong> item(s) due. <a href="/review">Start reviewing →</a></p>
+    <table>
+      <thead><tr><th>ID</th><th>Front</th><th>Due</th><th>Reps</th><th>Interval</th></tr></thead>
+      <tbody>
+        {% for item in due %}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.front }}</td>
+          <td class="due">{{ item.due_date.isoformat() }}</td>
+          <td>{{ item.repetitions }}</td>
+          <td>{{ item.interval }}d</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>🎉 Nothing due. You're all caught up! <a href="/cards">Add or browse cards →</a></p>
+  {% endif %}
+{% endblock %}

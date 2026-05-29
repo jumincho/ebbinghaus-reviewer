@@ -1,0 +1,80 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ebbinghaus-reviewer"
+version = "1.0.0"
+description = "Spaced-repetition study tool (SM-2 / Ebbinghaus forgetting curve) with a CLI and web UI."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "jumincho" }]
+keywords = ["spaced-repetition", "sm-2", "ebbinghaus", "flashcards", "study", "anki"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Education",
+]
+dependencies = [
+    "click>=8.1",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+web = [
+    "fastapi>=0.110",
+    "jinja2>=3.1",
+    "uvicorn>=0.29",
+    "python-multipart>=0.0.9",
+]
+dev = [
+    "pytest>=8.0",
+    "httpx>=0.27",
+    "ruff>=0.6",
+    "mypy>=1.10",
+    "fastapi>=0.110",
+    "jinja2>=3.1",
+    "uvicorn>=0.29",
+    "python-multipart>=0.0.9",
+]
+
+[project.scripts]
+ebbinghaus = "ebbinghaus_reviewer.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/properly59/ebbinghaus-reviewer"
+Repository = "https://github.com/properly59/ebbinghaus-reviewer"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ebbinghaus_reviewer"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = [
+    # Starlette's TestClient warns about httpx vs. httpx2; not our concern.
+    "ignore::DeprecationWarning:starlette.*",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "W", "C4", "SIM"]
+ignore = []
+
+[tool.mypy]
+python_version = "3.10"
+packages = ["ebbinghaus_reviewer"]
+mypy_path = "src"
+warn_unused_ignores = false
+ignore_missing_imports = true

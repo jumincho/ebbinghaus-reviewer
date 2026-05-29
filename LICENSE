@@ -22,9 +22,9 @@ SOFTWARE.
 
 ---
 
-Note: This MIT license covers the original artifacts in this archive
-(`docs/presentation.pdf`, and the compiled output binaries authored by the
-copyright holder). It does not relicense Syncfusion WPF components or
-Microsoft.WindowsAPICodePack libraries that the application binary depends on
-at runtime — those remain under their respective licenses (Syncfusion is a
-commercial product; running the binary requires a separate Syncfusion license).
+Note: This MIT license covers the Python reimplementation under `src/` and the
+original WPF/C# source preserved under `archive/` (both authored by the
+copyright holder). It does not relicense third-party dependencies, which remain
+under their own licenses — including the Syncfusion WPF components referenced by
+the archived WPF app (Syncfusion is a commercial product), and the Python
+runtime dependencies (click, rich, FastAPI, etc.).
