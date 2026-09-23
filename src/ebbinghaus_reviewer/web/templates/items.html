@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Items{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Items</h1>
+  {% if subjects %}
+  <nav class="filters" aria-label="Filter by subject">
+    <a href="/items" {% if not subject %}aria-current="true"{% endif %}>All</a>
+    {% for option in subjects %}
+      <a href="/items?subject={{ option | urlencode }}" {% if option == subject %}aria-current="true"{% endif %}>{{ option }}</a>
+    {% endfor %}
+  </nav>
+  {% endif %}
+</section>
+
+{% if items %}
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Item</th>
+        <th scope="col">Subject</th>
+        <th scope="col">Schedule</th>
+        <th scope="col">Next review</th>
+        <th scope="col" class="num">Recall</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td><a href="/items/{{ item.id }}">{{ item.title }}</a></td>
+        <td>{{ item.subject or "" }}</td>
+        <td>{{ schedule_label(item) }}</td>
+        <td class="{{ 'overdue' if item.is_due(now) else ('mastered' if item.mastered else '') }}">{{ due_label(item, now) }}</td>
+        <td class="num">{{ retention_label(item, now) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="lede">No items {% if subject %}in {{ subject }} {% endif %}yet.</p>
+{% endif %}
+
+<section>
+  <h2>Add an item</h2>
+  {% include "_add_form.html" %}
+</section>
+{% endblock %}

@@ -1,0 +1,38 @@
+{#- Form for logging a new item. Expects `subjects`; optional `draft` and `error`. -#}
+<form class="stack" method="post" action="/items">
+  <input type="hidden" name="next" value="{{ request.url.path }}">
+  {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+  <label>
+    <span>What did you study?</span>
+    <input name="title" required maxlength="200" autocomplete="off"
+           placeholder="e.g. Krebs cycle: the eight intermediates"
+           value="{{ draft.title if draft else '' }}">
+  </label>
+  <label>
+    <span>Notes or answer <span class="muted">(optional, revealed during review)</span></span>
+    <textarea name="notes" rows="2">{{ draft.notes if draft else '' }}</textarea>
+  </label>
+  <div class="row">
+    <label>
+      <span>Subject <span class="muted">(optional)</span></span>
+      <input name="subject" list="subject-options" autocomplete="off"
+             value="{{ draft.subject if draft else '' }}">
+    </label>
+    {% set chosen = draft.strategy.value if draft else "ladder" %}
+    <label>
+      <span>Schedule</span>
+      <select name="strategy">
+        <option value="ladder" {% if chosen == "ladder" %}selected{% endif %}>
+          Ebbinghaus ladder: 10 min, 1 day, 1 week, 1 month
+        </option>
+        <option value="sm2" {% if chosen == "sm2" %}selected{% endif %}>
+          SM-2: adaptive intervals
+        </option>
+      </select>
+    </label>
+  </div>
+  <datalist id="subject-options">
+    {% for option in subjects %}<option value="{{ option }}">{% endfor %}
+  </datalist>
+  <div><button class="button primary" type="submit">Add</button></div>
+</form>

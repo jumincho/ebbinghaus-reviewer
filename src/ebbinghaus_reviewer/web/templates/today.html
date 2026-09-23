@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Today{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Today</h1>
+  {% if due %}
+    <p class="lede">{{ due | length }} item{{ "s" if due | length != 1 }} due for review.</p>
+    <p><a class="button primary" href="/review">Start review</a></p>
+  {% else %}
+    <p class="lede">
+      All caught up.
+      {% if next_up %}
+        Next review: <a href="/items/{{ next_up.id }}">{{ next_up.title }}</a>,
+        {{ format_relative(next_up.due_at, now) }}.
+      {% else %}
+        Log what you study below and it will come back for review.
+      {% endif %}
+    </p>
+  {% endif %}
+</section>
+
+<section aria-label="Statistics">
+  <dl class="stats">
+    <div><dt>Due now</dt><dd>{{ stats.due_now }}</dd></div>
+    <div><dt>Later today</dt><dd>{{ stats.due_later_today }}</dd></div>
+    <div><dt>Reviewed today</dt><dd>{{ stats.reviews_today }}</dd></div>
+    <div><dt>Streak</dt><dd>{{ stats.streak_days }} <small>day{{ "s" if stats.streak_days != 1 }}</small></dd></div>
+    <div>
+      <dt>30-day recall</dt>
+      <dd>{{ "%.0f%%" | format(stats.recall_rate_30_days * 100) if stats.recall_rate_30_days is not none else "–" }}</dd>
+    </div>
+    <div><dt>Mastered</dt><dd>{{ stats.mastered }} <small>of {{ stats.total }}</small></dd></div>
+  </dl>
+</section>
+
+{% if due %}
+<section>
+  <h2>Due now</h2>
+  <ul class="item-list">
+    {% for item in due %}
+    <li>
+      <a class="item-title" href="/items/{{ item.id }}">{{ item.title }}</a>
+      <span class="meta">
+        {% if item.subject %}<span class="tag">{{ item.subject }}</span>{% endif %}
+        {{ schedule_label(item) }} · <span class="overdue">{{ due_label(item, now) }}</span>
+        · recall ≈ {{ retention_label(item, now) }}
+      </span>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+<section>
+  <h2>Log what you just studied</h2>
+  {% include "_add_form.html" %}
+</section>
+{% endblock %}

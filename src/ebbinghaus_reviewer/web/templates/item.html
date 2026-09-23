@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}{{ item.title }}{% endblock %}
+{% block content %}
+<section class="intro">
+  <p class="meta">
+    #{{ item.id }}
+    {% if item.subject %}<a class="tag" href="/items?subject={{ item.subject | urlencode }}">{{ item.subject }}</a>{% endif %}
+  </p>
+  <h1>{{ item.title }}</h1>
+  {% if item.notes %}<p class="notes">{{ item.notes }}</p>{% endif %}
+</section>
+
+<section class="split">
+  <dl class="facts">
+    <div><dt>Schedule</dt><dd>{{ schedule_label(item) }}</dd></div>
+    <div><dt>Interval</dt><dd>{{ interval_label(item) }}</dd></div>
+    <div><dt>Next review</dt><dd class="{{ 'overdue' if item.is_due(now) else '' }}">{{ due_label(item, now) }}{% if item.due_at %} <span class="muted">({{ item.due_at | local }})</span>{% endif %}</dd></div>
+    <div><dt>Recall now</dt><dd>{{ retention_label(item, now) }} <span class="muted">(estimated)</span></dd></div>
+    <div><dt>Studied</dt><dd>{{ item.studied_at | local }}</dd></div>
+    <div><dt>Reviews</dt><dd>{{ item.review_count }} ({{ item.lapse_count }} forgotten)</dd></div>
+  </dl>
+
+  {% if chart %}
+  <figure class="curve">
+    <svg viewBox="0 0 {{ chart.width }} {{ chart.height }}" role="img" aria-label="{{ chart.description }}">
+      {% for tick in chart.y_ticks %}
+      <line class="grid" x1="{{ chart.left }}" x2="{{ chart.right }}" y1="{{ tick.y }}" y2="{{ tick.y }}"/>
+      <text class="tick" x="{{ chart.left - 6 }}" y="{{ tick.y + 4 }}" text-anchor="end">{{ tick.label }}</text>
+      {% endfor %}
+      <line class="due" x1="{{ chart.due_x }}" x2="{{ chart.due_x }}" y1="{{ chart.top }}" y2="{{ chart.bottom }}"/>
+      <text class="tick" x="{{ chart.left }}" y="{{ chart.height - 4 }}">last review</text>
+      <text class="tick" x="{{ chart.due_x }}" y="{{ chart.height - 4 }}" text-anchor="middle">due</text>
+      <polyline class="line" points="{{ chart.points }}"/>
+      {% if chart.now_x is not none %}
+      <circle class="now" cx="{{ chart.now_x }}" cy="{{ chart.now_y }}" r="5"/>
+      <text class="now-label" x="{{ chart.now_x }}" y="{{ chart.now_y - 10 }}" text-anchor="middle">now</text>
+      {% endif %}
+    </svg>
+    <figcaption>
+      Estimated recall since the last review. It is scheduled to reach
+      {{ "%.0f%%" | format(chart.target * 100) }} exactly when the item is due.
+    </figcaption>
+  </figure>
+  {% endif %}
+</section>
+
+<section>
+  <h2>History</h2>
+  {% if history %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Reviewed</th><th scope="col">Grade</th><th scope="col" class="num">Next interval</th></tr></thead>
+      <tbody>
+        {% for review in history %}
+        <tr>
+          <td>{{ review.reviewed_at | local }}</td>
+          <td><span class="pill pill-{{ review.grade.value }}">{{ review.grade.value }}</span></td>
+          <td class="num">{{ format_interval(review.interval) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="muted">Not reviewed yet.</p>
+  {% endif %}
+</section>
+
+<section>
+  <h2>Edit</h2>
+  <form class="stack" method="post" action="/items/{{ item.id }}">
+    {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+    <label>Title <input name="title" required maxlength="200" value="{{ item.title }}"></label>
+    <label>Notes <textarea name="notes" rows="3">{{ item.notes }}</textarea></label>
+    <label>Subject <input name="subject" list="subject-options" value="{{ item.subject or '' }}"></label>
+    <datalist id="subject-options">{% for option in subjects %}<option value="{{ option }}">{% endfor %}</datalist>
+    <div><button class="button" type="submit">Save changes</button></div>
+  </form>
+</section>
+
+<section class="actions">
+  <form method="post" action="/items/{{ item.id }}/restart" class="inline">
+    <label>
+      Start over
+      <select name="strategy">
+        <option value="">keep {{ item.schedule.strategy.value }}</option>
+        {% for strategy in strategies %}<option value="{{ strategy.value }}">switch to {{ strategy.value }}</option>{% endfor %}
+      </select>
+    </label>
+    <button class="button" type="submit">Restart schedule</button>
+  </form>
+  <details class="danger">
+    <summary>Delete this item</summary>
+    <form method="post" action="/items/{{ item.id }}/delete">
+      <p>This removes the item and its review history.</p>
+      <button class="button danger" type="submit">Delete permanently</button>
+    </form>
+  </details>
+</section>
+{% endblock %}

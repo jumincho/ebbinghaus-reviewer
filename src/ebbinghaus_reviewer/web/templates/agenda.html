@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Agenda{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Agenda</h1>
+  <p class="lede">Reviews scheduled for the next {{ days }} days. Overdue items are listed under today.</p>
+</section>
+
+{% if agenda %}
+  {% for entry in agenda %}
+  <section class="day">
+    <h2>
+      {% if entry.day == today %}Today{% elif entry.day == tomorrow %}Tomorrow{% else %}{{ entry.day.strftime("%A") }}{% endif %}
+      <span class="muted">{{ entry.day.isoformat() }}</span>
+    </h2>
+    <ul class="item-list">
+      {% for item in entry.items %}
+      <li>
+        <span class="time {{ 'overdue' if item.due_at < now else '' }}">{{ "overdue" if item.due_at < now else item.due_at | local("%H:%M") }}</span>
+        <a class="item-title" href="/items/{{ item.id }}">{{ item.title }}</a>
+        {% if item.subject %}<span class="tag">{{ item.subject }}</span>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+{% else %}
+  <p class="muted">Nothing scheduled in this period.</p>
+{% endif %}
+{% endblock %}

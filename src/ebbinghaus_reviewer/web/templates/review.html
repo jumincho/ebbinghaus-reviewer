@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Review{% endblock %}
+{% block content %}
+{% if item %}
+<p class="muted">{{ remaining }} to go{% if subject %} in {{ subject }}{% endif %}</p>
+<article class="review-card">
+  <p class="meta">
+    #{{ item.id }}
+    {% if item.subject %}<span class="tag">{{ item.subject }}</span>{% endif %}
+    {{ schedule_label(item) }} · {{ due_label(item, now) }}
+  </p>
+  <h1>{{ item.title }}</h1>
+  {% if item.notes %}
+  <details>
+    <summary>Recall it first, then show your notes</summary>
+    <p class="notes">{{ item.notes }}</p>
+  </details>
+  {% endif %}
+  <form class="grades" method="post" action="/items/{{ item.id }}/grade">
+    <input type="hidden" name="next" value="/review{{ '?subject=' ~ (subject | urlencode) if subject else '' }}">
+    {% for grade in grades %}
+    <button class="grade grade-{{ grade.value }}" type="submit" name="grade" value="{{ grade.value }}">
+      <span class="grade-name">{{ grade.value | capitalize }}</span>
+      <span class="grade-hint">{{ grade_hints[grade] }}</span>
+    </button>
+    {% endfor %}
+  </form>
+</article>
+{% else %}
+<section class="intro">
+  <h1>All caught up</h1>
+  <p class="lede">
+    {% if next_up %}
+      Next review: <a href="/items/{{ next_up.id }}">{{ next_up.title }}</a>,
+      {{ format_relative(next_up.due_at, now) }}.
+    {% else %}
+      Nothing is scheduled yet.
+    {% endif %}
+  </p>
+  <p><a class="button" href="/">Back to today</a></p>
+</section>
+{% endif %}
+{% endblock %}
