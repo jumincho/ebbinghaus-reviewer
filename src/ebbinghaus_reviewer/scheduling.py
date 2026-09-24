@@ -2,9 +2,9 @@
 
 Two strategies are provided:
 
-* :class:`LadderScheduler` - the fixed *Ebbinghaus ladder* of the original 2021
-  app: review 10 minutes after studying, then 1 day, 1 week and 1 month after
-  each successful review. Climbing past the last rung marks the item mastered.
+* :class:`LadderScheduler` - the fixed *Ebbinghaus ladder*: review 10 minutes
+  after studying, then 1 day, 1 week and 1 month after each successful review.
+  Climbing past the last rung marks the item mastered.
 * :class:`SM2Scheduler` - SuperMemo's adaptive SM-2 algorithm (Wozniak, 1990),
   where intervals grow by a per-item *ease factor* learned from your grades.
 
@@ -84,7 +84,7 @@ DEFAULT_LADDER: tuple[timedelta, ...] = (
     timedelta(weeks=1),
     MONTH,
 )
-"""The four review checkpoints of the original app: 10 min, 1 day, 1 week, 1 month."""
+"""The four review checkpoints: 10 min, 1 day, 1 week, 1 month."""
 
 DEFAULT_EASE = 2.5
 """SM-2 ease factor of a new item."""

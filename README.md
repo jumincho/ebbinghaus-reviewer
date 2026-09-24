@@ -23,9 +23,6 @@ review just as you are about to forget it, first after **10 minutes**, then
 **1 day**, **1 week** and **1 month**, and tells you what is due each day. Grade
 every review *again*, *hard*, *good* or *easy*, and the schedule adapts.
 
-It started in 2021 as a Windows desktop reminder app. This is a from-scratch,
-cross-platform rebuild of the same idea (see [Project history](#project-history)).
-
 ## Features
 
 - **Two scheduling strategies.** The fixed *Ebbinghaus ladder* (10 min → 1 day →
@@ -178,7 +175,7 @@ ebbinghaus-reviewer/
 │   ├── demo.py           # sample collection
 │   └── web/              # FastAPI app, Jinja2 templates, CSS
 ├── tests/                # pytest + Hypothesis, one module per layer
-├── docs/                 # algorithm, architecture, screenshots, original slides
+├── docs/                 # algorithm, architecture, screenshots, presentation slides
 └── pyproject.toml
 ```
 
@@ -194,20 +191,6 @@ ruff check .        # lint
 ruff format .       # format
 mypy                # strict type check
 ```
-
-## Project history
-
-The project began in 2021 at Jeonbuk National University (JBNU) as
-**Review_Reminder**, a Windows WPF/C# desktop app that reminded you to review a
-topic 10 minutes, 1 day, 1 week and 1 month after studying it. That ladder is
-still the default strategy here. The app depended on Windows and a commercial UI
-toolkit, so it was rebuilt from scratch in Python as a cross-platform package.
-The rebuild adds SM-2, a review log, a web interface and tests.
-
-- Demo video of the original app: <https://www.youtube.com/watch?v=J2nf1r5jZrI>
-- Original presentation slides: [`docs/presentation.pdf`](docs/presentation.pdf)
-- The original C# source is kept in the Git history, e.g.
-  [`archive/` at commit `fa83d68`](https://github.com/jumincho/ebbinghaus-reviewer/tree/fa83d684b2faa049fe97e02995d5f5c884d06e9b/archive).
 
 ## License
 

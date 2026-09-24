@@ -30,9 +30,8 @@ Every review is graded with one of four buttons:
 
 ## Strategy 1: the Ebbinghaus ladder (default)
 
-The ladder reproduces the original 2021 app, which reminded you
-**10 minutes, 1 day, 1 week and 1 month** after studying. Each rung is the gap
-between two consecutive reviews:
+The ladder spaces reviews **10 minutes, 1 day, 1 week and 1 month** apart.
+Each rung is the gap between two consecutive reviews:
 
 ```
 studied ──10 min──▶ review ──1 day──▶ review ──1 week──▶ review ──1 month──▶ review ──▶ mastered
