@@ -141,14 +141,15 @@ def test_mastered_item_has_no_chart(client: TestClient, reviewer: Reviewer) -> N
     reviewer.grade(item.id, Grade.EASY)
     page = client.get(f"/items/{item.id}")
     assert "mastered" in page.text
-    assert "<svg" not in page.text
+    assert 'class="curve"' not in page.text
+    assert "plumbob-fresh" in page.text
 
 
 def test_lists_and_agenda(client: TestClient, reviewer: Reviewer, clock: FakeClock) -> None:
     reviewer.add("overdue", subject="A", studied_at=clock.moment - timedelta(days=1))
     reviewer.add("later", subject="B")
     today = client.get("/")
-    assert "1 item due for review." in today.text
+    assert "1 item due for review, and it is fading." in today.text
     assert "overdue" in today.text
     filtered = client.get("/items", params={"subject": "B"})
     assert "later" in filtered.text
@@ -157,3 +158,28 @@ def test_lists_and_agenda(client: TestClient, reviewer: Reviewer, clock: FakeClo
     assert "Today" in agenda.text
     assert "overdue" in agenda.text
     assert client.get("/agenda", params={"days": 0}).status_code == 422
+
+
+def test_plumbobs_show_how_items_are_doing(
+    client: TestClient, reviewer: Reviewer, clock: FakeClock
+) -> None:
+    assert 'aria-label="Plumbob for today: fresh"' in client.get("/").text
+    fresh = reviewer.add("fresh")
+    due = reviewer.add("due", studied_at=clock.moment - timedelta(minutes=12))
+    fading = reviewer.add("fading", studied_at=clock.moment - timedelta(days=1))
+
+    today = client.get("/").text
+    assert 'aria-label="Plumbob for today: fading"' in today
+    assert "2 items due for review, 1 of them fading." in today
+
+    listing = client.get("/items").text
+    for mood in ("fresh", "due", "fading"):
+        assert f'aria-label="Plumbob: {mood}"' in listing
+    assert "Fading: long overdue, estimated recall is below 80%." in listing  # tooltip
+
+    assert "Fresh: nothing to review yet." in client.get(f"/items/{fresh.id}").text
+    assert "Due: review it now" in client.get(f"/items/{due.id}").text
+    review = client.get("/review").text  # the most overdue item comes first
+    assert f"#{fading.id}" in review
+    assert "plumbob-fading" in review
+    assert "plumbob-due" in client.get("/agenda").text

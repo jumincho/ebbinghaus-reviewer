@@ -1,14 +1,20 @@
 {% extends "base.html" %}
 {% block title %}{{ item.title }}{% endblock %}
 {% block content %}
-<section class="intro">
-  <p class="meta">
-    #{{ item.id }}
-    {% if item.subject %}<a class="tag" href="/items?subject={{ item.subject | urlencode }}">{{ item.subject }}</a>{% endif %}
-  </p>
-  <h1>{{ item.title }}</h1>
-  {% if item.notes %}<p class="notes">{{ item.notes }}</p>{% endif %}
+{% from "_plumbob.html" import plumbob %}
+{% set mood = mood_of(item, now) %}
+<section class="intro with-plumbob">
+  {{ plumbob(mood, 88, big=true) }}
+  <div>
+    <p class="meta">
+      #{{ item.id }}
+      {% if item.subject %}<a class="tag" href="/items?subject={{ item.subject | urlencode }}">{{ item.subject }}</a>{% endif %}
+    </p>
+    <h1>{{ item.title }}</h1>
+    <p class="plumbob-note">{{ mood.description }}</p>
+  </div>
 </section>
+{% if item.notes %}<p class="notes">{{ item.notes }}</p>{% endif %}
 
 <section class="split">
   <dl class="facts">

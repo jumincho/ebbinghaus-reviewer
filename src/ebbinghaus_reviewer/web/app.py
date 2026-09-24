@@ -26,6 +26,7 @@ from ebbinghaus_reviewer import __version__
 from ebbinghaus_reviewer.config import default_db_path
 from ebbinghaus_reviewer.durations import format_interval, format_relative
 from ebbinghaus_reviewer.models import Item
+from ebbinghaus_reviewer.plumbob import Mood, collection_mood, mood_of
 from ebbinghaus_reviewer.presentation import (
     GRADE_HINTS,
     due_label,
@@ -152,6 +153,7 @@ def create_app(
         schedule_label=schedule_label,
         retention_label=retention_label,
         interval_label=interval_label,
+        mood_of=mood_of,
         format_interval=format_interval,
         format_relative=format_relative,
     )
@@ -216,13 +218,16 @@ def create_app(
     @app.get("/", response_class=HTMLResponse)
     def today(request: Request, reviewer: ReviewerDep) -> HTMLResponse:
         due = reviewer.due()
+        now = reviewer.now()
         return render(
             request,
             "today.html",
             {
-                "now": reviewer.now(),
+                "now": now,
                 "stats": reviewer.stats(),
                 "due": due,
+                "mood": collection_mood(due, now),
+                "fading": sum(mood_of(item, now) is Mood.FADING for item in due),
                 "next_up": None if due else reviewer.next_scheduled(),
                 "subjects": reviewer.subjects(),
             },

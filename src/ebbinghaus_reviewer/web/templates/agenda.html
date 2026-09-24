@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Agenda{% endblock %}
 {% block content %}
+{% from "_plumbob.html" import plumbob %}
 <section class="intro">
   <h1>Agenda</h1>
   <p class="lede">Reviews scheduled for the next {{ days }} days. Overdue items are listed under today.</p>
@@ -16,6 +17,7 @@
     <ul class="item-list">
       {% for item in entry.items %}
       <li>
+        {{ plumbob(mood_of(item, now), 20) }}
         <span class="time {{ 'overdue' if item.due_at < now else '' }}">{{ "overdue" if item.due_at < now else item.due_at | local("%H:%M") }}</span>
         <a class="item-title" href="/items/{{ item.id }}">{{ item.title }}</a>
         {% if item.subject %}<span class="tag">{{ item.subject }}</span>{% endif %}

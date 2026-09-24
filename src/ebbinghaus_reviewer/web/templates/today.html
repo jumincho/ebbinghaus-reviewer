@@ -1,22 +1,30 @@
 {% extends "base.html" %}
 {% block title %}Today{% endblock %}
 {% block content %}
-<section class="intro">
-  <h1>Today</h1>
-  {% if due %}
-    <p class="lede">{{ due | length }} item{{ "s" if due | length != 1 }} due for review.</p>
-    <p><a class="button primary" href="/review">Start review</a></p>
-  {% else %}
-    <p class="lede">
-      All caught up.
-      {% if next_up %}
-        Next review: <a href="/items/{{ next_up.id }}">{{ next_up.title }}</a>,
-        {{ format_relative(next_up.due_at, now) }}.
-      {% else %}
-        Log what you study below and it will come back for review.
-      {% endif %}
-    </p>
-  {% endif %}
+{% from "_plumbob.html" import plumbob %}
+<section class="intro with-plumbob">
+  {{ plumbob(mood, 104, "Plumbob for today: " ~ mood.value, big=true) }}
+  <div>
+    <h1>Today</h1>
+    {% if due %}
+      <p class="lede">
+        {{ due | length }} item{{ "s" if due | length != 1 }} due for review
+        {%- if fading and due | length == 1 %}, and it is fading
+        {%- elif fading %}, {{ fading }} of them fading{% endif %}.
+      </p>
+      <p><a class="button primary" href="/review">Start review</a></p>
+    {% else %}
+      <p class="lede">
+        All caught up.
+        {% if next_up %}
+          Next review: <a href="/items/{{ next_up.id }}">{{ next_up.title }}</a>,
+          {{ format_relative(next_up.due_at, now) }}.
+        {% else %}
+          Log what you study below and it will come back for review.
+        {% endif %}
+      </p>
+    {% endif %}
+  </div>
 </section>
 
 <section aria-label="Statistics">
@@ -39,6 +47,7 @@
   <ul class="item-list">
     {% for item in due %}
     <li>
+      {{ plumbob(mood_of(item, now), 22) }}
       <a class="item-title" href="/items/{{ item.id }}">{{ item.title }}</a>
       <span class="meta">
         {% if item.subject %}<span class="tag">{{ item.subject }}</span>{% endif %}

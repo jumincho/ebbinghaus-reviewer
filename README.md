@@ -13,8 +13,8 @@
 ![Typed](https://img.shields.io/badge/typing-mypy%20strict-2A6DB2)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-<img src="docs/screenshots/today.png" width="49%" alt="Today page: statistics and items due for review">
-<img src="docs/screenshots/review.png" width="49%" alt="Review page in dark mode with the four grade buttons">
+<img src="docs/screenshots/today.png" width="49%" alt="Today page: the collection's plumbob, statistics and items due for review">
+<img src="docs/screenshots/review.png" width="49%" alt="Review page in dark mode with the item's plumbob and the four grade buttons">
 
 </div>
 
@@ -23,12 +23,18 @@
 Right after you study something, log it. Ebbinghaus Reviewer brings it back for
 review just as you are about to forget it, first after **10 minutes**, then
 **1 day**, **1 week** and **1 month**, and tells you what is due each day. Grade
-every review *again*, *hard*, *good* or *easy*, and the schedule adapts.
+every review *again*, *hard*, *good* or *easy*, and the schedule adapts. Every
+item wears a Sims-style **plumbob** that shows how it is doing: green while it
+is fresh, yellow once it is due and red when your memory of it is fading.
 
 ## Features
 
 - **Two scheduling strategies.** The fixed *Ebbinghaus ladder* (10 min → 1 day →
   1 week → 1 month, then mastered) or adaptive *SM-2*, per item.
+- **A plumbob for every item.** Like a Sim's mood, each item's plumbob changes
+  colour and face: green and happy while it is fresh, yellow once it is due, red
+  and worried when it has been overdue so long that recall is fading. The Today
+  page and `stats` show the plumbob of the whole collection.
 - **Terminal workflow.** Use `add`, `due`, an interactive `review`, `agenda`,
   `stats`, `show`, `edit`, `restart` and more, with readable tables.
 - **Local web app.** A dashboard, a review screen that hides your notes until
@@ -55,8 +61,8 @@ ebbinghaus serve     # the web app at http://127.0.0.1:8000
 ```
 
 Leave out `[web]` if you only want the command line. The `demo` command only
-runs on an empty collection; pass `--db demo.sqlite3` to try it in a separate
-file.
+runs on an empty collection unless you add `--force`; pass `--db demo.sqlite3`
+to try it in a separate file.
 
 ## Command line
 
@@ -71,36 +77,36 @@ Due now (3)
 ┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━┓
 ┃ ID ┃ Item                                       ┃ Schedule   ┃ Next review ┃ Recall* ┃
 ┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━┩
-│  2 │ Krebs cycle: the eight intermediates in    │ ladder 3/4 │ 1 day ago   │     89% │
+│  7 │ Korean spelling: 되 vs 돼  Korean          │ ladder 2/4 │ 2 days ago  │   ◆ 73% │
+│  2 │ Krebs cycle: the eight intermediates in    │ ladder 3/4 │ 1 day ago   │   ◆ 89% │
 │    │ order  Biology                             │            │             │         │
-│  3 │ Binary heap: cost of push and pop          │ SM-2 rep 2 │ 2 h ago     │     90% │
+│  3 │ Binary heap: cost of push and pop          │ SM-2 rep 2 │ 2 h ago     │   ◆ 90% │
 │    │ Algorithms                                 │            │             │         │
-│  7 │ Korean spelling: 되 vs 돼  Korean          │ ladder 2/4 │ 50 min ago  │     90% │
 └────┴────────────────────────────────────────────┴────────────┴─────────────┴─────────┘
 *estimated probability of recall right now
+◆ plumbob: green = fresh, yellow = due, red = fading
 
 $ ebbinghaus review --limit 1
 1 to review. Grades: [a]gain  [h]ard  [g]ood  [e]asy; [s]kip, [q]uit.
-╭──────────────────────────────────── #2 · Biology ────────────────────────────────────╮
-│ Krebs cycle: the eight intermediates in order                                        │
-╰───────────────────── 1/1 · ladder · step 3 of 4 · due 1 day ago ─────────────────────╯
+╭─────────────────────────────────── ◆ #7 · Korean ────────────────────────────────────╮
+│ Korean spelling: 되 vs 돼                                                            │
+╰──────────────────── 1/1 · ladder · step 2 of 4 · due 2 days ago ─────────────────────╯
 Recall it, then press Enter to see your notes:
 ╭─────────────────────────────────────── Notes ────────────────────────────────────────╮
-│ Citrate, isocitrate, alpha-ketoglutarate, succinyl-CoA, succinate, fumarate, malate, │
-│ oxaloacetate.                                                                        │
+│ 돼 is the contraction of 되어 - if 되어 fits, write 돼.                              │
 ╰──────────────────────────────────────────────────────────────────────────────────────╯
 Grade: g
-good - next review in 1 month (Fri 23 Oct 16:49).
+good - next review in 1 week (Thu 01 Oct 19:15).
 Reviewed 1 item.
 
 $ ebbinghaus agenda --days 7
-Today 2026-09-23
-  overdue  #3 Binary heap: cost of push and pop Algorithms
-  overdue  #7 Korean spelling: 되 vs 돼 Korean
-    16:54  #8 French: 'être' in the passé simple French
-    16:59  #9 Pythagorean theorem Math
-Friday 2026-09-25
-    16:49  #5 Treaty of Westphalia History
+Today 2026-09-24
+  ◆ overdue  #2 Krebs cycle: the eight intermediates in order Biology
+  ◆ overdue  #3 Binary heap: cost of push and pop Algorithms
+  ◆   19:20  #8 French: 'être' in the passé simple French
+  ◆   19:25  #9 Pythagorean theorem Math
+Saturday 2026-09-26
+  ◆   19:15  #5 Treaty of Westphalia History
 ...
 ```
 
@@ -118,7 +124,7 @@ Friday 2026-09-25
 | `ebbinghaus restart ID [--strategy ...]` | Start an item's schedule over, optionally switching strategy. |
 | `ebbinghaus delete ID [-y]` | Delete an item and its history. |
 | `ebbinghaus export [-o FILE]` / `ebbinghaus import FILE` | Back up or restore the collection as JSON. |
-| `ebbinghaus demo` | Load the sample collection into an empty database. |
+| `ebbinghaus demo [--force]` | Load the sample collection; `--force` adds it even if the database is not empty. |
 | `ebbinghaus serve [--host] [--port]` | Run the web app (needs the `web` extra). |
 
 Every command has `--help`. The collection lives in your platform's user data
@@ -130,12 +136,13 @@ several collections.
 
 `ebbinghaus serve` starts a local web app over the same SQLite file as the
 command line, so you can log in the terminal and review in the browser. Pages:
-**Today** (statistics, due items, quick add), **Review** (one card at a time,
-notes hidden until you open them), **Items** (filter by subject), an **item
-page** (schedule, history, edit and restart) and the **Agenda**.
+**Today** (the collection's plumbob, statistics, due items, quick add),
+**Review** (one card at a time, notes hidden until you open them), **Items**
+(filter by subject), an **item page** (plumbob, schedule, history, edit and
+restart) and the **Agenda**.
 
 <p align="center">
-  <img src="docs/screenshots/item.png" width="80%" alt="Item page with schedule facts and the forgetting-curve chart">
+  <img src="docs/screenshots/item.png" width="80%" alt="Item page with its plumbob, schedule facts and the forgetting-curve chart">
 </p>
 
 The app is meant for your own machine. It listens on `127.0.0.1` and has no
@@ -156,7 +163,9 @@ ladder:  studied ─10 min─▶ ✓ ─1 day─▶ ✓ ─1 week─▶ ✓ ─1
 
 SM-2 intervals go 1 day, 6 days, then the previous interval × the ease factor,
 rounded up. The recall estimate assumes an exponential forgetting curve that
-reaches 90% exactly when an item is due. [`docs/algorithm.md`](docs/algorithm.md)
+reaches 90% exactly when an item is due, and the plumbob turns red once it
+drops below 80%, roughly one interval after the item became due.
+[`docs/algorithm.md`](docs/algorithm.md)
 has the full rules, a worked example and references, and
 [`docs/architecture.md`](docs/architecture.md) describes the layers, data model
 and time handling.
@@ -168,6 +177,7 @@ ebbinghaus-reviewer/
 ├── src/ebbinghaus_reviewer/
 │   ├── scheduling.py     # grades, ladder and SM-2 strategies (pure)
 │   ├── retention.py      # forgetting-curve estimate
+│   ├── plumbob.py        # the Sims-style plumbob: fresh, due, fading
 │   ├── models.py         # Item, Review, Stats, AgendaDay
 │   ├── storage.py        # SQLite repository with schema migrations
 │   ├── service.py        # Reviewer: the use cases shared by CLI and web

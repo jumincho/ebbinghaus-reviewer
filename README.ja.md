@@ -13,18 +13,19 @@
 ![Typed](https://img.shields.io/badge/typing-mypy%20strict-2A6DB2)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-<img src="docs/screenshots/today.png" width="49%" alt="今日（Today）ページ：統計と復習期限が来た項目">
-<img src="docs/screenshots/review.png" width="49%" alt="4 つの評価ボタンを備えた、ダークモードの復習（Review）ページ">
+<img src="docs/screenshots/today.png" width="49%" alt="今日（Today）ページ：コレクション全体のプラムボブ、統計、復習期限が来た項目">
+<img src="docs/screenshots/review.png" width="49%" alt="項目のプラムボブと 4 つの評価ボタンを備えた、ダークモードの復習（Review）ページ">
 
 </div>
 
 ## 概要
 
-何かを学んだら、すぐに記録しましょう。Ebbinghaus Reviewer は、ちょうど忘れかけた頃にその内容を復習として再び出題します。最初は **10 分**後、続いて **1 日**後、**1 週間**後、**1 か月**後です。また、毎日どの項目が復習期限を迎えるかを知らせてくれます。復習のたびに「もう一度」（*again*）、「難しい」（*hard*）、「正解」（*good*）、「簡単」（*easy*）のいずれかで評価すると、それに合わせてスケジュールが調整されます。
+何かを学んだら、すぐに記録しましょう。Ebbinghaus Reviewer は、ちょうど忘れかけた頃にその内容を復習として再び出題します。最初は **10 分**後、続いて **1 日**後、**1 週間**後、**1 か月**後です。また、毎日どの項目が復習期限を迎えるかを知らせてくれます。復習のたびに「もう一度」（*again*）、「難しい」（*hard*）、「正解」（*good*）、「簡単」（*easy*）のいずれかで評価すると、それに合わせてスケジュールが調整されます。すべての項目には『ザ・シムズ』風の**プラムボブ**が付いていて、状態がひと目でわかります。記憶が新しいうちは緑、復習期限が来ると黄色、記憶が薄れてくると赤になります。
 
 ## 機能
 
 - **2 種類のスケジューリング戦略。** 固定の *Ebbinghaus ラダー*（10 分 → 1 日 → 1 週間 → 1 か月、その後は習得済み）と適応型の *SM-2* のどちらかを、項目ごとに選べます。
+- **すべての項目にプラムボブ。** シムの気分と同じように、項目のプラムボブも色と表情が変わります。記憶が新しいうちは笑顔の緑、期限が来ると黄色、期限を大きく過ぎて記憶が薄れてくると心配顔の赤です。今日ページと `stats` では、コレクション全体のプラムボブを表示します。
 - **ターミナルでのワークフロー。** `add`、`due`、対話式の `review`、`agenda`、`stats`、`show`、`edit`、`restart` などのコマンドがあり、結果は読みやすい表で表示されます。
 - **ローカル Web アプリ。** ダッシュボード、思い出そうとするまでメモを隠しておく復習画面、復習履歴と忘却曲線のグラフを表示する項目ページ、そして予定表を備えています。JavaScript なしでも動作し、ダークモードにも対応しています。
 - **復習ログ。** 復習のたびに、その評価と、期限より早かったか遅かったかが記録されます。連続復習日数と 30 日間の想起率は、この記録をもとに算出されます。
@@ -42,7 +43,7 @@ ebbinghaus review    # 復習する
 ebbinghaus serve     # Web アプリ（http://127.0.0.1:8000）
 ```
 
-コマンドラインだけを使う場合は、`[web]` を省いてください。`demo` コマンドは空のコレクションでのみ実行できます。別のファイルで試すには `--db demo.sqlite3` を指定してください。
+コマンドラインだけを使う場合は、`[web]` を省いてください。`demo` コマンドは、`--force` を付けない限り空のコレクションでのみ実行できます。別のファイルで試すには `--db demo.sqlite3` を指定してください。
 
 ## コマンドライン
 
@@ -57,36 +58,36 @@ Due now (3)
 ┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━┓
 ┃ ID ┃ Item                                       ┃ Schedule   ┃ Next review ┃ Recall* ┃
 ┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━┩
-│  2 │ Krebs cycle: the eight intermediates in    │ ladder 3/4 │ 1 day ago   │     89% │
+│  7 │ Korean spelling: 되 vs 돼  Korean          │ ladder 2/4 │ 2 days ago  │   ◆ 73% │
+│  2 │ Krebs cycle: the eight intermediates in    │ ladder 3/4 │ 1 day ago   │   ◆ 89% │
 │    │ order  Biology                             │            │             │         │
-│  3 │ Binary heap: cost of push and pop          │ SM-2 rep 2 │ 2 h ago     │     90% │
+│  3 │ Binary heap: cost of push and pop          │ SM-2 rep 2 │ 2 h ago     │   ◆ 90% │
 │    │ Algorithms                                 │            │             │         │
-│  7 │ Korean spelling: 되 vs 돼  Korean          │ ladder 2/4 │ 50 min ago  │     90% │
 └────┴────────────────────────────────────────────┴────────────┴─────────────┴─────────┘
 *estimated probability of recall right now
+◆ plumbob: green = fresh, yellow = due, red = fading
 
 $ ebbinghaus review --limit 1
 1 to review. Grades: [a]gain  [h]ard  [g]ood  [e]asy; [s]kip, [q]uit.
-╭──────────────────────────────────── #2 · Biology ────────────────────────────────────╮
-│ Krebs cycle: the eight intermediates in order                                        │
-╰───────────────────── 1/1 · ladder · step 3 of 4 · due 1 day ago ─────────────────────╯
+╭─────────────────────────────────── ◆ #7 · Korean ────────────────────────────────────╮
+│ Korean spelling: 되 vs 돼                                                            │
+╰──────────────────── 1/1 · ladder · step 2 of 4 · due 2 days ago ─────────────────────╯
 Recall it, then press Enter to see your notes:
 ╭─────────────────────────────────────── Notes ────────────────────────────────────────╮
-│ Citrate, isocitrate, alpha-ketoglutarate, succinyl-CoA, succinate, fumarate, malate, │
-│ oxaloacetate.                                                                        │
+│ 돼 is the contraction of 되어 - if 되어 fits, write 돼.                              │
 ╰──────────────────────────────────────────────────────────────────────────────────────╯
 Grade: g
-good - next review in 1 month (Fri 23 Oct 16:49).
+good - next review in 1 week (Thu 01 Oct 19:15).
 Reviewed 1 item.
 
 $ ebbinghaus agenda --days 7
-Today 2026-09-23
-  overdue  #3 Binary heap: cost of push and pop Algorithms
-  overdue  #7 Korean spelling: 되 vs 돼 Korean
-    16:54  #8 French: 'être' in the passé simple French
-    16:59  #9 Pythagorean theorem Math
-Friday 2026-09-25
-    16:49  #5 Treaty of Westphalia History
+Today 2026-09-24
+  ◆ overdue  #2 Krebs cycle: the eight intermediates in order Biology
+  ◆ overdue  #3 Binary heap: cost of push and pop Algorithms
+  ◆   19:20  #8 French: 'être' in the passé simple French
+  ◆   19:25  #9 Pythagorean theorem Math
+Saturday 2026-09-26
+  ◆   19:15  #5 Treaty of Westphalia History
 ...
 ```
 
@@ -104,17 +105,17 @@ Friday 2026-09-25
 | `ebbinghaus restart ID [--strategy ...]` | 項目のスケジュールを最初からやり直します。必要に応じて戦略も切り替えられます。 |
 | `ebbinghaus delete ID [-y]` | 項目とその履歴を削除します。 |
 | `ebbinghaus export [-o FILE]` / `ebbinghaus import FILE` | コレクションを JSON でバックアップ・復元します。 |
-| `ebbinghaus demo` | 空のデータベースにサンプルコレクションを読み込みます。 |
+| `ebbinghaus demo [--force]` | サンプルコレクションを読み込みます。`--force` を付けると、データベースが空でなくても追加します。 |
 | `ebbinghaus serve [--host] [--port]` | Web アプリを起動します（`web` extra が必要です）。 |
 
 すべてのコマンドで `--help` を使えます。コレクションは、プラットフォームごとのユーザーデータディレクトリ（たとえば Linux では `~/.local/share/ebbinghaus-reviewer/`）に保存されます。複数のコレクションを使い分けるには、`--db` または環境変数 `EBBINGHAUS_DB` で別のファイルを指定してください。
 
 ## Web アプリ
 
-`ebbinghaus serve` は、コマンドラインと同じ SQLite ファイルを使うローカル Web アプリを起動します。そのため、ターミナルで記録し、ブラウザーで復習するといった使い方ができます。ページは、統計・期限が来た項目・クイック追加をまとめた**今日**（*Today*）、カードを 1 枚ずつ表示し、開くまでメモを隠しておく**復習**（*Review*）、科目で絞り込める**項目一覧**（*Items*）、スケジュール・履歴・編集・やり直しを扱う**項目ページ**、そして**予定表**（*Agenda*）です。
+`ebbinghaus serve` は、コマンドラインと同じ SQLite ファイルを使うローカル Web アプリを起動します。そのため、ターミナルで記録し、ブラウザーで復習するといった使い方ができます。ページは、コレクション全体のプラムボブ・統計・期限が来た項目・クイック追加をまとめた**今日**（*Today*）、カードを 1 枚ずつ表示し、開くまでメモを隠しておく**復習**（*Review*）、科目で絞り込める**項目一覧**（*Items*）、プラムボブ・スケジュール・履歴・編集・やり直しを扱う**項目ページ**、そして**予定表**（*Agenda*）です。
 
 <p align="center">
-  <img src="docs/screenshots/item.png" width="80%" alt="スケジュール情報と忘却曲線のグラフを表示した項目ページ">
+  <img src="docs/screenshots/item.png" width="80%" alt="プラムボブ、スケジュール情報、忘却曲線のグラフを表示した項目ページ">
 </p>
 
 このアプリは自分のマシンで使うためのものです。`127.0.0.1` で待ち受け、アカウント機能もないため、信頼できないネットワークには公開しないでください。
@@ -132,7 +133,7 @@ ladder:  studied ─10 min─▶ ✓ ─1 day─▶ ✓ ─1 week─▶ ✓ ─1
 | 正解（*good*） | 1 段上がる | 合格扱い、容易度係数は変わらない |
 | 簡単（*easy*） | 2 段上がる | 合格扱い、容易度係数 +0.10 |
 
-SM-2 の間隔は 1 日、6 日と進み、その後は前回の間隔 × 容易度係数を切り上げた値になります。想起確率の推定では、項目の期限ちょうどに 90% に達する指数関数的な忘却曲線を仮定しています。[`docs/algorithm.md`](docs/algorithm.md) には完全なルール、計算例、参考文献が記載されており、[`docs/architecture.md`](docs/architecture.md) ではレイヤー構成、データモデル、時刻の扱いを説明しています。
+SM-2 の間隔は 1 日、6 日と進み、その後は前回の間隔 × 容易度係数を切り上げた値になります。想起確率の推定では、項目の期限ちょうどに 90% に達する指数関数的な忘却曲線を仮定しています。この推定値が 80% を下回るとプラムボブは赤に変わります。期限を過ぎてから、およそ間隔 1 つ分が経過した頃です。[`docs/algorithm.md`](docs/algorithm.md) には完全なルール、計算例、参考文献が記載されており、[`docs/architecture.md`](docs/architecture.md) ではレイヤー構成、データモデル、時刻の扱いを説明しています。
 
 ## プロジェクト構成
 
@@ -141,6 +142,7 @@ ebbinghaus-reviewer/
 ├── src/ebbinghaus_reviewer/
 │   ├── scheduling.py     # 評価、ラダーと SM-2 の各戦略（純粋関数）
 │   ├── retention.py      # 忘却曲線の推定
+│   ├── plumbob.py        # ザ・シムズ風のプラムボブ（fresh / due / fading）
 │   ├── models.py         # Item, Review, Stats, AgendaDay
 │   ├── storage.py        # スキーママイグレーション付きの SQLite リポジトリ
 │   ├── service.py        # Reviewer：CLI と Web で共有するユースケース

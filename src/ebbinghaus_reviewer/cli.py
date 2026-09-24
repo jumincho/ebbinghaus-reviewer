@@ -22,6 +22,7 @@ from ebbinghaus_reviewer.config import DB_ENV_VAR, default_db_path
 from ebbinghaus_reviewer.demo import seed_demo
 from ebbinghaus_reviewer.durations import format_interval, format_relative, parse_duration
 from ebbinghaus_reviewer.models import Item
+from ebbinghaus_reviewer.plumbob import Mood, collection_mood, mood_of
 from ebbinghaus_reviewer.presentation import (
     due_label,
     retention_label,
@@ -94,6 +95,11 @@ def _due_text(item: Item, now: datetime, *, prefix: bool = True) -> Text:
     return Text(label, style="bold red" if item.due_at <= now else "")
 
 
+def _plumbob(mood: Mood) -> Text:
+    """The plumbob as a coloured diamond: green fresh, yellow due, red fading."""
+    return Text("◆", style=mood.style)
+
+
 def _items_table(items: list[Item], reviewer: Reviewer, *, title: str) -> Table:
     now = reviewer.now()
     table = Table(title=title, title_justify="left", header_style="bold")
@@ -111,9 +117,12 @@ def _items_table(items: list[Item], reviewer: Reviewer, *, title: str) -> Table:
             label,
             schedule_label(item, compact=True),
             _due_text(item, now, prefix=False),
-            retention_label(item, now),
+            Text.assemble(_plumbob(mood_of(item, now)), " ", retention_label(item, now)),
         )
-    table.caption = "*estimated probability of recall right now"
+    table.caption = (
+        "*estimated probability of recall right now\n"
+        "◆ plumbob: green = fresh, yellow = due, red = fading"
+    )
     table.caption_justify = "left"
     return table
 
@@ -237,12 +246,16 @@ def review(app: AppContext, item_id: int | None, subject: str | None, limit: int
         console.print(Text(f"{len(queue)} to review. Grades: {_GRADE_KEYS}; [s]kip, [q]uit."))
         reviewed = 0
         for position, item in enumerate(queue, start=1):
+            mood = mood_of(item, reviewer.now())
             console.print(
                 Panel(
                     Text(item.title, style="bold"),
-                    title=f"#{item.id}" + (f" · {escape(item.subject)}" if item.subject else ""),
+                    title=Text.assemble(
+                        _plumbob(mood), f" #{item.id}", f" · {item.subject}" if item.subject else ""
+                    ),
                     subtitle=f"{position}/{len(queue)} · {schedule_label(item)} · "
                     f"{due_label(item, reviewer.now())}",
+                    border_style=mood.style,
                 )
             )
             if item.notes:
@@ -315,6 +328,8 @@ def show(app: AppContext, item_id: int) -> None:
         details.add_row("Interval", format_interval(item.schedule.interval))
         details.add_row("Next review", _due_text(item, now))
         details.add_row("Recall now", retention_label(item, now) + " (estimated)")
+        mood = mood_of(item, now)
+        details.add_row("Plumbob", Text.assemble(_plumbob(mood), " ", mood.description))
         details.add_row("Studied", f"{reviewer.local(item.studied_at):%Y-%m-%d %H:%M}")
         details.add_row("Reviews", f"{item.review_count} ({item.lapse_count} forgotten)")
         if item.notes:
@@ -427,8 +442,11 @@ def agenda(app: AppContext, days: int, subject: str | None) -> None:
                 if item.due_at is None:
                     continue
                 when = "overdue" if item.due_at < now else f"{reviewer.local(item.due_at):%H:%M}"
-                subject = f" [magenta]{escape(item.subject)}[/magenta]" if item.subject else ""
-                console.print(f"  {when:>7}  [cyan]#{item.id}[/cyan] {escape(item.title)}{subject}")
+                line = Text.assemble("  ", _plumbob(mood_of(item, now)), f" {when:>7}  ")
+                line.append(f"#{item.id}", style="cyan").append(f" {item.title}")
+                if item.subject:
+                    line.append(f" {item.subject}", style="magenta")
+                console.print(line)
 
 
 @cli.command()
@@ -443,6 +461,7 @@ def stats(app: AppContext) -> None:
         recall = (
             "-" if summary.recall_rate_30_days is None else f"{summary.recall_rate_30_days:.0%}"
         )
+        mood = collection_mood(reviewer.due(), reviewer.now())
         for label, value in (
             ("Items", str(summary.total)),
             ("  being reviewed", str(summary.active)),
@@ -455,6 +474,7 @@ def stats(app: AppContext) -> None:
             ("Streak", f"{summary.streak_days} day{'s' if summary.streak_days != 1 else ''}"),
         ):
             table.add_row(label, value)
+        table.add_row("Plumbob", Text.assemble(_plumbob(mood), f" {mood.value}"))
         console.print(table)
 
 

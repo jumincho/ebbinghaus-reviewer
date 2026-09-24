@@ -75,7 +75,10 @@ def test_due_and_grade(run: Harness, clock: FakeClock) -> None:
     assert "All caught up." in run("due").output
     assert "Next up: #1 Avogadro constant (in 10 min)" in run("due").output
     clock.advance(timedelta(minutes=11))
-    assert "Due now (1)" in run("due").output
+    due = run("due").output
+    assert "Due now (1)" in due
+    assert "◆ 89%" in due
+    assert "◆ plumbob: green = fresh, yellow = due, red = fading" in due
     output = run("grade", "1", "good").output
     assert "good - next review in 1 day" in output
     assert "All caught up." in run("due").output
@@ -96,6 +99,7 @@ def test_interactive_review(run: Harness, clock: FakeClock) -> None:
     # first: reveal notes, grade good; second: skip; third: quit.
     output = run("review", input="\ng\ns\nq\n").output
     assert "3 to review. Grades: [a]gain  [h]ard  [g]ood  [e]asy" in output
+    assert "◆ #1" in output
     assert "the answer" in output
     assert "good - next review in 1 day" in output
     assert "Reviewed 1 item." in output
@@ -120,6 +124,7 @@ def test_show_edit_restart_delete(run: Harness, clock: FakeClock) -> None:
     shown = run("show", "1").output
     assert "SM-2 · rep 1 · EF 2.36" in shown
     assert "on time" in shown
+    assert "◆ Fresh: nothing to review yet." in shown
 
     run("edit", "1", "--title", "Treaty of Westphalia", "--notes", "1648")
     assert "Treaty of Westphalia" in run("show", "1").output
@@ -137,15 +142,17 @@ def test_show_edit_restart_delete(run: Harness, clock: FakeClock) -> None:
 
 
 def test_agenda_and_stats(run: Harness, clock: FakeClock) -> None:
-    run("add", "overdue", "--studied", "1d ago")
+    run("add", "overdue", "--studied", "1d ago", "--subject", "Biology")
     run("add", "tomorrow", "--strategy", "sm2")
     agenda = run("agenda", "--days", "3").output
     assert "Today 2026-03-02" in agenda
-    assert "overdue  #1 overdue" in agenda
+    assert "◆ overdue  #1 overdue Biology" in agenda
     assert "Tomorrow 2026-03-03" in agenda
-    assert "09:00  #2 tomorrow" in agenda
+    assert "◆   09:00  #2 tomorrow" in agenda
+    assert "◆ fading" in run("stats").output
     run("grade", "1", "again")
     stats = run("stats").output
+    assert "◆ fresh" in stats
     assert "Reviews today" in stats
     assert "0%" in stats  # the only review was "again"
     assert "1 day" in stats  # streak

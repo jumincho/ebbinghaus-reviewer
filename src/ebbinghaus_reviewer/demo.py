@@ -102,8 +102,8 @@ SAMPLES: tuple[Sample, ...] = (
         "돼 is the contraction of 되어 - if 되어 fits, write 돼.",
         "Korean",
         Strategy.LADDER,
-        25 * _H,
-        ((25 * _H - 10 * _M, Grade.GOOD),),
+        3 * _D,
+        ((3 * _D - 10 * _M, Grade.GOOD),),
     ),
     Sample(
         "French: 'être' in the passé simple",

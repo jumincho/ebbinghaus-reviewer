@@ -103,6 +103,25 @@ It visualises "how far along the curve" an item is - it is an assumption about
 a well-calibrated schedule, not a measurement, and it never influences
 scheduling ([`retention.py`](../src/ebbinghaus_reviewer/retention.py)).
 
+## The plumbob
+
+Like the plumbob above a Sim's head in *The Sims*, every item carries a
+diamond whose colour and face show how it is doing
+([`plumbob.py`](../src/ebbinghaus_reviewer/plumbob.py)):
+
+| Plumbob | State | When |
+| --- | --- | --- |
+| green, happy | **fresh** | not due yet, or mastered |
+| yellow, neutral | **due** | due, with an estimated recall of 80% or more |
+| red, worried | **fading** | due, with an estimated recall below 80% |
+
+With the curve above, recall is 90% when an item becomes due and 80% after
+about 2.1 intervals, so an item turns red roughly one interval after it became
+due: about 11 minutes late on the first rung of the ladder, 8 days late on the
+1-week rung. The Today page and `ebbinghaus stats` show the plumbob of the
+whole collection: the worst state among the items due. Like the recall
+estimate, the plumbob never influences scheduling.
+
 ## References
 
 - H. Ebbinghaus, *Über das Gedächtnis: Untersuchungen zur experimentellen

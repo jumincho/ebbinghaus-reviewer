@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block title %}Review{% endblock %}
 {% block content %}
+{% from "_plumbob.html" import plumbob %}
 {% if item %}
 <p class="muted">{{ remaining }} to go{% if subject %} in {{ subject }}{% endif %}</p>
 <article class="review-card">
+  <div class="card-plumbob">{{ plumbob(mood_of(item, now), 60) }}</div>
   <p class="meta">
     #{{ item.id }}
     {% if item.subject %}<span class="tag">{{ item.subject }}</span>{% endif %}

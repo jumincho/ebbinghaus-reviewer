@@ -15,6 +15,9 @@ flowchart TD
     storage --> models["models.py<br/>Item, Review, Stats"]
     models --> retention["retention.py<br/>forgetting curve"]
     scheduling --> durations["durations.py"]
+    cli --> plumbob["plumbob.py<br/>fresh, due, fading"]
+    web --> plumbob
+    plumbob --> models
 ```
 
 ## Modules
@@ -23,6 +26,7 @@ flowchart TD
 | --- | --- |
 | [`scheduling.py`](../src/ebbinghaus_reviewer/scheduling.py) | `Grade`, `Strategy`, `Schedule`, and the `LadderScheduler` / `SM2Scheduler` strategies. Pure functions. |
 | [`retention.py`](../src/ebbinghaus_reviewer/retention.py) | The exponential forgetting-curve estimate used for display. |
+| [`plumbob.py`](../src/ebbinghaus_reviewer/plumbob.py) | The Sims-style plumbob: whether an item is fresh, due or fading. Pure. |
 | [`models.py`](../src/ebbinghaus_reviewer/models.py) | Immutable records: `Item`, `Review`, `Stats`, `AgendaDay`. |
 | [`storage.py`](../src/ebbinghaus_reviewer/storage.py) | `Repository`: one SQLite connection, versioned schema, explicit transactions. |
 | [`service.py`](../src/ebbinghaus_reviewer/service.py) | `Reviewer`: add, grade, restart, edit, delete, due, agenda, stats, import/export. Owns the clock and the time zone. |
