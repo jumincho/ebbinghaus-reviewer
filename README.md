@@ -1,5 +1,7 @@
 <div align="center">
 
+🇺🇸 **English** | 🇨🇳 [简体中文](README.zh-CN.md) | 🇭🇰 [繁體中文](README.zh-HK.md) | 🇯🇵 [日本語](README.ja.md) | 🇰🇷 [한국어](README.ko.md)
+
 <img src="src/ebbinghaus_reviewer/web/static/icon.svg" width="64" height="64" alt="">
 
 # Ebbinghaus Reviewer
